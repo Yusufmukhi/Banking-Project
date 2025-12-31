@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
   if (!req.session.customer) {
     return res.redirect("/login");
   }
-  return res.redirect("/dashboard");
+  return res.redirect("/");
 });
 
 router.use("/",auth);
