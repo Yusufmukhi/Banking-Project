@@ -10,6 +10,12 @@ import transfer from './transfer/transfer.routes.js';
 import profile from './profile/profile.routes.js';
 
 const router = express.Router();
+router.get("/", (req, res) => {
+  if (!req.session.customer) {
+    return res.redirect("/login");
+  }
+  return res.redirect("/dashboard");
+});
 
 router.use("/",auth);
 router.use("/",home);
