@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BankTrust | Pay RD Installment</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 text-gray-800">
+
+  <!-- TOP NAV -->
+  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
+    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
+    <div class="text-right">
+      <p class="font-semibold text-gray-900">Welcome, <%=Customers.username %></p>
+      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen bg-slate-50">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
+      <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
+      <ul class="space-y-2 text-gray-700">
+        <li><a href="/" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4m-4-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+          <span class="text-sm font-medium">Dashboard</span></a></li>
+        <li><a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+          <span class="text-sm font-medium">Accounts</span></a></li>
+        <li><a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span class="text-sm font-medium">UPI</span></a></li>
+        <li><a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-purple-50 text-purple-700 rounded-lg font-semibold border-l-4 border-purple-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="text-sm font-medium">Deposits</span></a></li>
+        <li><a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="text-sm font-medium">Loans</span></a></li>
+        <li><a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 11-8 0 4 4 0 018 0zM15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+          <span class="text-sm font-medium">Transfers</span></a></li>
+        <li><a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+          <span class="text-sm font-medium">Statements</span></a></li>
+        <li><a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+          <span class="text-sm font-medium">Profile</span></a></li>
+        <li><a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <span class="text-sm font-medium">Logout</span></a></li>
+      </ul>
+      <hr class="my-6 border-slate-200">
+      <ul class="text-sm space-y-2">
+        <li><a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+          Block Debit Card</a></li>
+        <li><a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Report Fraud</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900">Pay RD Installment</h1>
+        <p class="text-gray-600 mt-2">Make your recurring deposit payments securely</p>
+      </div>
+
+      <!-- Summary cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <p class="text-sm text-gray-600">Next Payment Due</p>
+          <p class="text-3xl font-bold text-purple-600 mt-2">₹<%= NextRDAmount %></p>
+          <p class="text-xs text-gray-500 mt-2">Due: <%= NextRDDueDate %></p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <p class="text-sm text-gray-600">Total Pending</p>
+          <p class="text-3xl font-bold text-orange-600 mt-2">₹<%= TotalPendingRD %></p>
+          <p class="text-xs text-gray-500 mt-2"><%= PendingRDCount %> installments</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <p class="text-sm text-gray-600">Account Balance</p>
+          <p class="text-3xl font-bold text-green-600 mt-2">₹<%= AccountBalance %></p>
+        </div>
+      </div>
+
+      <!-- PENDING RD INSTALLMENTS TABLE -->
+      <section class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Pending RD Installments</h2>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b-2 border-slate-200 bg-slate-50">
+                <th class="py-3 px-4 font-semibold text-gray-700">RD ID</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Due Date</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Monthly Amount</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Tenure</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Action</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-700">
+              <% PendingRDs.forEach((rd, index) => { %>
+                <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                  <td class="py-4 px-4 font-semibold text-purple-600">#<%= rd.rd_id %></td>
+                  <td class="py-4 px-4"><%= new Date(rd.next_payout_date).toLocaleDateString('en-IN') %></td>
+                  <td class="py-4 px-4 font-bold">₹<%= rd.monthly_amount %></td>
+                  <td class="py-4 px-4"><%= rd.paid_months %>/<%= rd.duration_months %> months</td>
+                  <td class="py-4 px-4">
+                    <button type="button" onclick="openRDPaymentModal('<%= rd.rd_id %>', '<%= rd.linked_account %>', '<%= rd.monthly_amount %>')" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold text-xs">Pay Now</button>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- RD PAYMENT CONFIRMATION MODAL -->
+  <div id="rdPaymentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4">
+      <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 text-white">
+        <h2 class="text-2xl font-bold">Confirm RD Payment</h2>
+      </div>
+
+      <form id="rdPaymentForm" method="POST" class="p-6 space-y-4">
+        <input type="hidden" id="formRdId" name="rd_id">
+        <input type="hidden" id="formAccountId" name="account_id">
+        
+        <div class="bg-slate-50 p-4 rounded-lg">
+          <p class="text-sm text-gray-600">Monthly Installment</p>
+          <p class="text-2xl font-bold text-gray-900" id="paymentAmount">₹0</p>
+        </div>
+
+        <div class="bg-purple-50 p-4 rounded-lg">
+          <label class="flex items-center gap-2">
+            <input type="checkbox" id="confirmCheckbox" class="w-4 h-4 rounded" required>
+            <span class="text-sm text-gray-700">I confirm the payment of <span id="confirmAmount">₹0</span></span>
+          </label>
+        </div>
+
+        <div class="flex gap-3">
+          <button type="button" onclick="closeRDPaymentModal()" class="flex-1 px-4 py-2 bg-slate-300 text-gray-900 rounded-lg hover:bg-slate-400 transition-colors font-semibold">Cancel</button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold">Pay Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 text-center p-8">
+      <div class="w-16 h-16 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-4">
+        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h2>
+      <p class="text-gray-600 mb-4">Your RD installment has been paid</p>
+      <p class="text-sm text-gray-500 mb-6">Transaction ID: <span id="transactionId" class="font-mono font-semibold">TXN0000000</span></p>
+      <a href="/deposits/<%=id%>" class="block w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold">Back to Deposits</a>
+    </div>
+  </div>
+
+  <script>
+    function openRDPaymentModal(rdId, accountId, amount) {
+      document.getElementById('formRdId').value = rdId;
+      document.getElementById('formAccountId').value = accountId;
+      document.getElementById('paymentAmount').textContent = '₹' + parseFloat(amount).toLocaleString('en-IN');
+      document.getElementById('confirmAmount').textContent = '₹' + parseFloat(amount).toLocaleString('en-IN');
+      document.getElementById('rdPaymentForm').action = `/pay-rd/<%=id%>/${rdId}`;
+      document.getElementById('confirmCheckbox').checked = false;
+      document.getElementById('rdPaymentModal').classList.remove('hidden');
+    }
+
+    function closeRDPaymentModal() {
+      document.getElementById('rdPaymentModal').classList.add('hidden');
+    }
+
+    document.getElementById('rdPaymentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!document.getElementById('confirmCheckbox').checked) {
+        alert('Please confirm the payment');
+        return;
+      }
+
+      const formData = new FormData(this);
+      const data = {
+        rd_id: formData.get('rd_id'),
+        account_id: formData.get('account_id'),
+        amount: document.getElementById('paymentAmount').textContent.replace('₹', '').replace(/,/g, '')
+      };
+
+      try {
+        const response = await fetch(this.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          document.getElementById('transactionId').textContent = result.transaction_id || 'TXN0000000';
+          document.getElementById('rdPaymentModal').classList.add('hidden');
+          document.getElementById('successModal').classList.remove('hidden');
+          
+          setTimeout(() => {
+            window.location.href = `/deposits/<%=id%>`;
+          }, 3000);
+        } else {
+          alert(result.error || 'Payment failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('[v0] Error:', error);
+        alert('Error processing payment');
+      }
+    });
+  </script>
+
+</body>
+</html>
+

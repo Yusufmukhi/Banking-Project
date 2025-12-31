@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BankTrust | FD Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 text-gray-800">
+
+  <!-- TOP NAV -->
+  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
+    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
+    <div class="text-right">
+      <p class="font-semibold text-gray-900">Welcome, <%=Customers.username %></p>
+      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen bg-slate-50">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
+      <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
+
+      <ul class="space-y-2 text-gray-700">
+        <li>
+          <a href="/" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4m-4-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            <span class="text-sm font-medium">Dashboard</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            <span class="text-sm font-medium">Accounts</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="text-sm font-medium">UPI</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold border-l-4 border-blue-600 transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-sm font-medium">Deposits</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-sm font-medium">Loans</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <span class="text-sm font-medium">Transfers</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="text-sm font-medium">Statements</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span class="text-sm font-medium">Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            <span class="text-sm font-medium">Logout</span>
+          </a>
+        </li>
+      </ul>
+
+      <hr class="my-6 border-slate-200">
+
+      <ul class="text-sm space-y-2">
+        <li>
+          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            Block Debit Card
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Report Fraud
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+
+      <!-- BREADCRUMB -->
+      <div class="flex items-center gap-2 text-sm text-gray-600">
+        <a href="/deposits/<%=id%>" class="text-blue-600 hover:underline">Deposits</a>
+        <span>→</span>
+        <span>Fixed Deposit Details</span>
+      </div>
+
+      <!-- FD HEADER CARD -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-xl shadow-lg text-white">
+        <p class="text-blue-100 text-sm font-semibold uppercase tracking-wider">Fixed Deposit</p>
+        <h1 class="text-4xl font-bold mt-3">₹<%= fd.amount %></h1>
+        <p class="text-blue-100 mt-2">FD ID: <%= fd.fd_id %></p>
+        <div class="mt-6 flex gap-4">
+          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-semibold">Active</span>
+          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-semibold"><%= fd.tenure %> Months</span>
+        </div>
+      </div>
+
+      <!-- FD DETAILS GRID -->
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- DEPOSIT INFO -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Information</h2>
+          <div class="space-y-4 text-sm">
+            <div class="flex justify-between pb-3 border-b border-slate-100">
+              <span class="text-gray-600">Principal Amount</span>
+              <span class="font-semibold text-gray-900">₹<%= fd.amount %></span>
+            </div>
+            <div class="flex justify-between pb-3 border-b border-slate-100">
+              <span class="text-gray-600">Interest Rate</span>
+              <span class="font-semibold text-gray-900"><%= fd.interest_rate %>% p.a.</span>
+            </div>
+            <div class="flex justify-between pb-3 border-b border-slate-100">
+              <span class="text-gray-600">Tenure</span>
+              <span class="font-semibold text-gray-900"><%= fd.tenure %> Months</span>
+            </div>
+            <div class="flex justify-between pb-3 border-b border-slate-100">
+              <span class="text-gray-600">Opened On</span>
+              <span class="font-semibold text-gray-900"><%= fd.start_date.toDateString() %></span>
+            </div>
+            <div class="flex justify-between pt-2">
+              <span class="text-gray-600 font-semibold">Maturity Date</span>
+              <span class="font-bold text-green-600"><%= fd.maturity_date.toDateString() %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATURITY CALCULATION -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-lg font-bold text-gray-900 mb-6">Maturity Calculation</h2>
+          <div class="space-y-4 text-sm">
+            <div class="flex justify-between pb-3 border-b border-slate-100">
+              <span class="text-gray-600">Principal</span>
+              <span class="font-semibold text-gray-900">₹<%= fd.amount %></span>
+            </div>
+            <div class="flex justify-between pb-3 border-b border-slate-100">
+              <span class="text-gray-600">Interest Earned</span>
+              <span class="font-semibold text-green-600">₹<%= fd.interest_amount %></span>
+            </div>
+            <div class="flex justify-between pt-2 bg-blue-50 p-3 rounded-lg">
+              <span class="text-gray-700 font-semibold">Maturity Amount</span>
+              <span class="font-bold text-blue-600">₹<%= fd.maturity_amount %></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PAYOUT & SETTINGS -->
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- PAYOUT PREFERENCE -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-lg font-bold text-gray-900 mb-6">Payout Preference</h2>
+          <div class="space-y-3 text-sm">
+            <div class="p-3 bg-slate-50 rounded-lg">
+              <p class="text-gray-600">Payout Type</p>
+              <p class="font-semibold text-gray-900 mt-1"><%= fd.payout_type %></p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg">
+              <p class="text-gray-600">Auto-Renewal</p>
+              <p class="font-semibold text-gray-900 mt-1"><%= fd.auto_renewal ? 'Yes' : 'No' %></p>
+            </div>
+            <% if(fd.payout_type === 'Monthly') { %>
+              <div class="p-3 bg-slate-50 rounded-lg">
+                <p class="text-gray-600">Monthly Interest</p>
+                <p class="font-semibold text-gray-900 mt-1">₹<%= fd.monthly_interest %></p>
+              </div>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- LINKED ACCOUNT -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-lg font-bold text-gray-900 mb-6">Linked Account</h2>
+          <div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+            <p class="text-gray-600 text-sm">Savings Account</p>
+            <p class="font-bold text-gray-900 mt-2"><%= fd.account_number %></p>
+            <p class="text-sm text-gray-500 mt-1">Interest & Maturity Amount will be credited to this account</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- INTEREST SCHEDULE -->
+      <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
+        <h2 class="text-lg font-bold text-gray-900 mb-6">Interest Payment Schedule</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b-2 border-slate-200 bg-slate-50">
+                <th class="py-3 px-4 font-semibold text-gray-700">Date</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Interest Amount</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="py-3 px-4">24 Feb 2025</td>
+                <td class="py-3 px-4 font-semibold text-green-600">+₹<%= fd.monthly_interest %></td>
+                <td class="py-3 px-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Credited</span></td>
+              </tr>
+              <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="py-3 px-4">24 Mar 2025</td>
+                <td class="py-3 px-4 font-semibold text-blue-600">+₹<%= fd.monthly_interest %></td>
+                <td class="py-3 px-4"><span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Upcoming</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="flex gap-4 pt-4">
+        <button class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md">
+          Pre-Mature Withdrawal
+        </button>
+        <button class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md">
+          Download Certificate
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
+

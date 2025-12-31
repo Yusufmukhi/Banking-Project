@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BankTrust • Create Savings Account</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    console.log("[v0] CLIENT_ID from backend:", "<%= phoneEmailClientId %>");
+    console.log("[v0] Email verified:", '<%= JSON.stringify(verifiedEmail) %>');
+    console.log("[v0] Phone verified:", '<%= JSON.stringify(verifiedPhone) %>');
+  </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+  <div class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+
+    <div class="max-w-6xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+
+      <div class="grid grid-cols-1 lg:grid-cols-3">
+
+        <!-- LEFT SIDEBAR -->
+        <div class="p-8 sm:p-10 bg-gradient-to-b from-white to-blue-50 flex flex-col justify-between">
+
+          <div>
+            <!-- LOGO -->
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-500 text-white flex items-center justify-center font-bold text-2xl">
+                BT
+              </div>
+              <div>
+                <h1 class="text-2xl font-extrabold text-slate-900">BankTrust</h1>
+                <p class="text-sm text-slate-500">Digital Savings Account</p>
+              </div>
+            </div>
+
+            <!-- FEATURES -->
+            <div class="mt-10 space-y-6">
+
+              <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-md bg-white shadow flex items-center justify-center text-green-500 font-bold text-lg">✔</div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">Fast KYC</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Open a savings account in minutes.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-md bg-white shadow flex items-center justify-center text-green-500 font-bold text-lg">✔</div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">All banking services</p>
+                  <p class="text-xs text-slate-500 mt-0.5">FD/RD, loans, UPI, credit cards.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-md bg-white shadow flex items-center justify-center text-green-500 font-bold text-lg">✔</div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">Secure & RBI compliant</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Encrypted and verified onboarding.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-500 mt-6">
+            Need help?
+            <a href="mailto:support@banktrust.com" class="text-blue-600 hover:underline">
+              support@banktrust.com
+            </a>
+          </div>
+
+        </div>
+
+        <!-- RIGHT SECTION -->
+        <div class="p-8 sm:p-10 lg:col-span-2 overflow-y-auto max-h-screen">
+
+          <% if(errors.system){ %>
+          <div class="bg-red-50 border border-red-200 text-red-600 p-4 rounded-lg mb-4 text-sm">
+            <%= errors.system %>
+          </div>
+          <% } %>
+
+          <form class="mt-6 space-y-6" action="/signup" method="post">
+
+            <!-- HEADER -->
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 mb-1">Personal Information</h2>
+              <p class="text-xs text-slate-500">Enter your details as per Aadhaar</p>
+            </div>
+
+            <!-- NAME + DOB -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <label class="block">
+                <span class="text-xs font-semibold uppercase text-slate-700 tracking-wide mb-2 block">Full Name</span>
+                <input class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  name="name" value="<%= old.name || '' %>" placeholder="As per Aadhaar" required>
+                <% if(errors.name){ %><p class="text-red-500 text-xs mt-1"><%= errors.name %></p><% } %>
+              </label>
+
+              <label class="block">
+                <span class="text-xs font-semibold uppercase text-slate-700 tracking-wide mb-2 block">Date of Birth</span>
+                <input type="date"
+                  class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"
+                  name="dob" value="<%= old.dob || '' %>" required>
+              </label>
+            </div>
+
+            <!-- MOBILE + EMAIL -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              <!-- PHONE -->
+              <div>
+                <label class="block">
+                  <span class="text-xs font-semibold uppercase text-slate-700 tracking-wide mb-2 block">Phone</span>
+                  <input 
+                    type="tel" 
+                    name="tel" 
+                    id="tel-input"
+                    value="<%= old.tel || '' %>"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 <%= verifiedPhone ? 'bg-green-50 border-green-300' : '' %>"
+                    placeholder="+91 98765 43210"
+                    <%= verifiedPhone ? "readonly" : "" %>
+                    required>
+                </label>
+
+                <!-- Phone verification using pe_signin_button -->
+                <div 
+                  class="pe_signin_button mt-2"
+                  data-client-id="<%= phoneEmailClientId %>">
+                  <script src="https://www.phone.email/sign_in_button_v1.js" async></script>
+                </div>
+
+                <% if (verifiedPhone) { %>
+                  <p class="text-green-600 text-xs mt-1">✔ Phone Verified</p>
+                <% } %>
+
+                <% if (errors.tel) { %>
+                  <p class="text-red-500 text-xs mt-1"><%= errors.tel %></p>
+                <% } %>
+              </div>
+
+              <!-- EMAIL -->
+              <div>
+                <label class="block">
+                  <span class="text-xs font-semibold uppercase text-slate-700 tracking-wide mb-2 block">Email</span>
+                  <input
+                    type="email"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 <%= verifiedEmail ? 'bg-green-50 border-green-300' : '' %>"
+                    name="email"
+                    id="email-input"
+                    value="<%= old.email || '' %>"
+                    placeholder="your.email@example.com"
+                    <%= verifiedEmail ? "readonly" : "" %>
+                    required>
+                </label>
+
+                <!-- Email verification using pe_verify_email -->
+                <div 
+                  class="pe_verify_email mt-2"
+                  data-client-id="<%= phoneEmailClientId %>"
+                  data-scope="email">
+                  <script src="https://www.phone.email/verify_email_v1.js" async></script>
+                </div>
+
+                <% if (verifiedEmail) { %>
+                  <p class="text-green-600 text-xs mt-1">✔ Email Verified</p>
+                <% } %>
+
+                <% if (errors.email) { %>
+                  <p class="text-red-500 text-xs mt-1"><%= errors.email %></p>
+                <% } %>
+              </div>
+
+            </div>
+
+            <!-- ADDRESS SECTION -->
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 mb-1">Address</h3>
+              <p class="text-xs text-slate-500">Your residential address</p>
+            </div>
+
+            <label class="block">
+              <input class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white"
+              name="address" value="<%= old.address || '' %>" placeholder="House No, Street, Area">
+            </label>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="city" placeholder="City" value="<%= old.city || '' %>">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="state" placeholder="State" value="<%= old.state || '' %>">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="pincode" placeholder="PIN Code" value="<%= old.pincode || '' %>">
+            </div>
+
+            <!-- BRANCH -->
+            <label class="block">
+              <select class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white" name="branch">
+                <option value="">Choose Branch</option>
+                <% [
+                  "101|Mumbai – Main Branch",
+                  "102|Delhi – Connaught Place",
+                  "103|Bangalore – HSR Layout",
+                  "104|Hyderabad – Madhapur",
+                  "105|Chennai – T. Nagar",
+                  "106|Kolkata – Park Street",
+                  "107|Pune – Shivaji Nagar",
+                  "108|Ahmedabad – C.G. Road",
+                  "109|Jaipur – MI Road",
+                  "110|Surat – Adajan"
+                ].forEach(b=>{ %>
+                  <option value="<%= b %>" <%= old.branch === b ? 'selected' : '' %>><%= b.split("|")[1] %></option>
+                  <% }); %>
+              </select>
+            </label>
+            
+            <!-- Aadhaar + PAN -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="Aadhaar" placeholder="Aadhaar Number" value="<%= old.Aadhaar || '' %>">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="PAN" placeholder="ABCDE1234F" value="<%= old.PAN || '' %>">
+            </div>
+            
+            <!-- OCCUPATION -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <select class="border border-gray-300 rounded-xl px-4 py-3" name="Occupation">
+                <option value="">Choose Occupation</option>
+                <option value="Student" <%= old.Occupation === 'Student' ? 'selected' : '' %>>Student</option>
+                <option value="Salaried" <%= old.Occupation === 'Salaried' ? 'selected' : '' %>>Salaried</option>
+                <option value="Self-employed" <%= old.Occupation === 'Self-employed' ? 'selected' : '' %>>Self-employed</option>
+                <option value="Business" <%= old.Occupation === 'Business' ? 'selected' : '' %>>Business</option>
+              </select>
+              
+              <input class="border border-gray-300 rounded-xl px-4 py-3"
+              name="Monthly" placeholder="₹ Enter amount" value="<%= old.Monthly || '' %>">
+            </div>
+            
+            <!-- TYPE + AMOUNT -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="rounded-lg border-2 border-dashed border-gray-300 p-4 bg-blue-50 text-sm font-medium">
+                Account Type: <span class="text-indigo-600 font-semibold">Savings Account</span>
+              </div>
+              
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="initialAmount"
+              placeholder="₹ Minimum ₹1000" value="<%= old.initialAmount || '' %>">
+            </div>
+            
+            <!-- LOGIN -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="Username"
+              placeholder="Create Username" value="<%= old.Username || '' %>">
+              <input class="border border-gray-300 rounded-xl px-4 py-3" name="userId"
+              placeholder="User ID" value="<%= old.userId || '' %>" required>
+              <select class="border border-gray-300 rounded-xl px-4 py-3" name="Gender">
+                <option value="">Choose</option>
+                <option value="Male" <%= old.Gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= old.Gender === 'Female' ? 'selected' : '' %>>Female</option>
+              </select>
+            </div>
+            
+            <!-- PASSWORD -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <input type="password" class="border border-gray-300 rounded-xl px-4 py-3" placeholder="Password" name="password" required>
+              <input type="password" class="border border-gray-300 rounded-xl px-4 py-3" placeholder="Confirm Password" name="confirmPassword" required>
+            </div>
+            
+            <!-- CHECKBOX -->
+            <div class="space-y-3 bg-slate-50 p-4 rounded-lg">
+              <label class="flex items-start gap-3 cursor-pointer text-xs">
+                <input type="checkbox" class="w-4 h-4 accent-indigo-600" name="terms" required> I agree to Terms & Conditions
+              </label>
+              <label class="flex items-start gap-3 cursor-pointer text-xs">
+                <input type="checkbox" class="w-4 h-4 accent-indigo-600" name="kyc" required> I authorize KYC verification
+              </label>
+            </div>
+            
+            <!-- SUBMIT -->
+            <button type="submit"
+            class="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition shadow-lg">
+            Submit Application
+            </button>
+            
+            <div class="text-center text-xs text-slate-600 pb-8">
+              Already registered?
+              <a href="/login" class="text-indigo-600 font-semibold hover:underline">Login here</a>
+            </div>
+            
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Updated callbacks to fetch user_json_url without page reload -->
+  <script>
+    // Email verification callback
+    function phoneEmailReceiver(userObj) {
+      console.log("[v0] Email verification received:", userObj);
+      
+      if (userObj && userObj.user_json_url) {
+        fetch(userObj.user_json_url)
+          .then(res => res.json())
+          .then(userData => {
+            console.log("[v0] FULL Email userData structure:", JSON.stringify(userData, null, 2));
+            console.log("[v0] Available keys:", Object.keys(userData));
+            
+            // Try multiple possible field names
+            const email = userData.user_email_id || userData.email || userData.email_id || userData.emailAddress;
+            
+            if (!email) {
+              console.error("[v0] Email not found in userData. Expected fields: user_email_id, email, email_id, or emailAddress");
+              return;
+            }
+            
+            document.getElementById('email-input').value = email;
+            document.getElementById('email-input').readOnly = true;
+            document.getElementById('email-input').classList.add('bg-green-50', 'border-green-300');
+            
+            fetch('/verify-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email })
+            })
+            .then(res => res.json())
+            .then(result => {
+              console.log("[v0] Email verification response:", result);
+              if (result.success) {
+                console.log("[v0] Email verified successfully");
+              } else {
+                console.error("[v0] Email verification failed:", result.message);
+              }
+            })
+            .catch(err => console.error("[v0] Error saving email verification:", err));
+          })
+          .catch(err => console.error("[v0] Error fetching email data from URL:", err));
+      } else {
+        console.error("[v0] No user_json_url in email callback");
+      }
+    }
+
+    // Phone verification callback
+    function phoneEmailListener(userObj) {
+      console.log("[v0] Phone verification received:", userObj);
+      
+      if (userObj && userObj.user_json_url) {
+        fetch(userObj.user_json_url)
+          .then(res => res.json())
+          .then(userData => {
+            console.log("[v0] FULL Phone userData structure:", JSON.stringify(userData, null, 2));
+            console.log("[v0] Available keys:", Object.keys(userData));
+            
+            // Try multiple possible field names
+            const phone = userData.user_phone_number || userData.phone || userData.phone_number || userData.phoneNumber;
+            
+            if (!phone) {
+              console.error("[v0] Phone not found in userData. Expected fields: user_phone_number, phone, phone_number, or phoneNumber");
+              return;
+            }
+            
+            document.getElementById('tel-input').value = phone;
+            document.getElementById('tel-input').readOnly = true;
+            document.getElementById('tel-input').classList.add('bg-green-50', 'border-green-300');
+            
+            fetch('/verify-phone', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ phone })
+            })
+            .then(res => res.json())
+            .then(result => {
+              console.log("[v0] Phone verification response:", result);
+              if (result.success) {
+                console.log("[v0] Phone verified successfully");
+              } else {
+                console.error("[v0] Phone verification failed:", result.message);
+              }
+            })
+            .catch(err => console.error("[v0] Error saving phone verification:", err));
+          })
+          .catch(err => console.error("[v0] Error fetching phone data from URL:", err));
+      } else {
+        console.error("[v0] No user_json_url in phone callback");
+      }
+    }
+  </script>
+
+</body>
+</html>

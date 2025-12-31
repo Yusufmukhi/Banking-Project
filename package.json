@@ -1,0 +1,19 @@
+{
+  "name": "banking",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
+    "@tailwindcss/cli": "^4.1.17",
+    "bcrypt": "^6.0.0",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.19.2",
+    "express-session": "^1.18.2",
+    "pg": "^8.11.5",
+    "tailwindcss": "^4.1.17"
+  }
+}

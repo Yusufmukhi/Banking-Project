@@ -1,0 +1,275 @@
+Customers tables
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+
+    full_name VARCHAR(100) NOT NULL,
+    dob DATE NOT NULL,
+    mobile VARCHAR(15) UNIQUE NOT NULL,
+    email VARCHAR(100),
+
+    address VARCHAR(255),
+    city VARCHAR(80),
+    state VARCHAR(80),
+    pincode VARCHAR(10),
+
+    aadhaar VARCHAR(12) UNIQUE NOT NULL,
+    pan VARCHAR(10) UNIQUE NOT NULL,
+
+    aadhaar_file VARCHAR(255),
+    pan_file VARCHAR(255),
+
+    occupation VARCHAR(50),
+    monthly_income NUMERIC(12,2),
+
+   
+
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+Accoubnst Table
+CREATE TABLE accounts (
+    account_id SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL REFERENCES customers(customer_id),
+
+    account_number VARCHAR(20) UNIQUE NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    ifsc VARCHAR(20) NOT NULL DEFAULT 'BKT0000123',
+    branch VARCHAR(100) NOT NULL DEFAULT 'Mumbai - Andheri',
+
+    balance NUMERIC(15,2) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Add payout_method column to fixed_deposits table
+ALTER TABLE public.fixed_deposits
+ADD COLUMN IF NOT EXISTS payout_method VARCHAR(20) DEFAULT 'AT_MATURITY'
+  CHECK (payout_method IN ('MONTHLY', 'QUARTERLY', 'AT_MATURITY'));
+
+-- Add payout_method column to recurring_deposits table
+ALTER TABLE public.recurring_deposits
+ADD COLUMN IF NOT EXISTS payout_method VARCHAR(20) DEFAULT 'AT_MATURITY'
+  CHECK (payout_method IN ('MONTHLY', 'QUARTERLY', 'AT_MATURITY'));
+
+-- Add columns to track payout schedule
+ALTER TABLE public.fixed_deposits
+ADD COLUMN IF NOT EXISTS last_payout_date DATE,
+ADD COLUMN IF NOT EXISTS next_payout_date DATE;
+
+ALTER TABLE public.recurring_deposits
+ADD COLUMN IF NOT EXISTS last_payout_date DATE,
+ADD COLUMN IF NOT EXISTS next_payout_date DATE;  -- Function to calculate next payout date based on method
+CREATE OR REPLACE FUNCTION calculate_next_payout_date(
+  start_date DATE,
+  payout_method VARCHAR
+)
+RETURNS DATE AS $$
+BEGIN
+  CASE payout_method
+    WHEN 'MONTHLY' THEN
+      RETURN start_date + INTERVAL '1 month';
+    WHEN 'QUARTERLY' THEN
+      RETURN start_date + INTERVAL '3 months';
+    WHEN 'AT_MATURITY' THEN
+      RETURN NULL;
+    ELSE
+      RETURN NULL;
+  END CASE;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate payout amount for FD based on method
+CREATE OR REPLACE FUNCTION calculate_fd_payout_amount(
+  principal NUMERIC,
+  annual_rate NUMERIC,
+  duration_months INT,
+  payout_method VARCHAR
+)
+RETURNS NUMERIC AS $$
+DECLARE
+  total_interest NUMERIC;
+  monthly_payout NUMERIC;
+BEGIN
+  -- Calculate total interest
+  total_interest := principal * annual_rate / 100 * duration_months / 12;
+  
+  CASE payout_method
+    WHEN 'MONTHLY' THEN
+      -- Interest divided by number of months
+      RETURN ROUND(total_interest / duration_months, 2);
+    WHEN 'QUARTERLY' THEN
+      -- Interest divided by number of quarters
+      RETURN ROUND(total_interest / (duration_months / 3), 2);
+    WHEN 'AT_MATURITY' THEN
+      -- All interest at maturity
+      RETURN ROUND(total_interest, 2);
+    ELSE
+      RETURN 0;
+  END CASE;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate payout amount for RD based on method
+CREATE OR REPLACE FUNCTION calculate_rd_payout_amount(
+  monthly_amount NUMERIC,
+  annual_rate NUMERIC,
+  duration_months INT,
+  payout_method VARCHAR
+)
+RETURNS NUMERIC AS $$
+DECLARE
+  total_interest NUMERIC;
+  num_payouts INT;
+BEGIN
+  -- Calculate total interest
+  total_interest := (monthly_amount * duration_months * annual_rate * (duration_months + 1)) / (100 * 24);
+  
+  CASE payout_method
+    WHEN 'MONTHLY' THEN
+      num_payouts := duration_months;
+      RETURN ROUND(total_interest / num_payouts, 2);
+    WHEN 'QUARTERLY' THEN
+      num_payouts := CEIL(duration_months::NUMERIC / 3)::INT;
+      RETURN ROUND(total_interest / num_payouts, 2);
+    WHEN 'AT_MATURITY' THEN
+      RETURN ROUND(total_interest, 2);
+    ELSE
+      RETURN 0;
+  END CASE;
+END;
+$$ LANGUAGE plpgsql;  -- Create table to track individual payout transactions
+CREATE TABLE IF NOT EXISTS public.payout_schedule (
+  payout_id SERIAL PRIMARY KEY,
+  deposit_id INT NOT NULL,
+  deposit_type VARCHAR(10) NOT NULL CHECK (deposit_type IN ('FD', 'RD')),
+  payout_amount NUMERIC(15, 2) NOT NULL,
+  scheduled_date DATE NOT NULL,
+  actual_payout_date DATE,
+  status VARCHAR(15) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'COMPLETED', 'FAILED')),
+  created_at TIMESTAMP DEFAULT now(),
+  UNIQUE(deposit_id, scheduled_date, deposit_type)
+);
+
+-- Index for faster lookups
+CREATE INDEX IF NOT EXISTS idx_payout_schedule_date ON public.payout_schedule(scheduled_date);
+CREATE INDEX IF NOT EXISTS idx_payout_schedule_status ON public.payout_schedule(status);   -- Trigger to automatically generate payout schedule for Fixed Deposits
+CREATE OR REPLACE FUNCTION generate_fd_payout_schedule()
+RETURNS TRIGGER AS $$
+DECLARE
+  num_payouts INT;
+  payout_date DATE;
+  payout_amount NUMERIC;
+  i INT := 0;
+BEGIN
+  IF NEW.payout_method IN ('MONTHLY', 'QUARTERLY') THEN
+    -- Calculate number of payouts
+    IF NEW.payout_method = 'MONTHLY' THEN
+      num_payouts := NEW.duration_months;
+      payout_date := NEW.start_date;
+    ELSE -- QUARTERLY
+      num_payouts := CEIL(NEW.duration_months::NUMERIC / 3)::INT;
+      payout_date := NEW.start_date;
+    END IF;
+    
+    -- Calculate payout amount
+    payout_amount := calculate_fd_payout_amount(
+      NEW.amount, 
+      NEW.interest_rate, 
+      NEW.duration_months, 
+      NEW.payout_method
+    );
+    
+    -- Generate schedule
+    WHILE i < num_payouts LOOP
+      IF NEW.payout_method = 'MONTHLY' THEN
+        payout_date := NEW.start_date + (i || ' months')::INTERVAL;
+      ELSE
+        payout_date := NEW.start_date + (i * 3 || ' months')::INTERVAL;
+      END IF;
+      
+      INSERT INTO public.payout_schedule 
+      (deposit_id, deposit_type, payout_amount, scheduled_date, status)
+      VALUES (NEW.fd_id, 'FD', payout_amount, payout_date, 'PENDING')
+      ON CONFLICT DO NOTHING;
+      
+      i := i + 1;
+    END LOOP;
+    
+    -- Set next payout date
+    NEW.next_payout_date := NEW.start_date + INTERVAL '1 month';
+  ELSE
+    -- AT_MATURITY - no intermediate payouts
+    NEW.next_payout_date := NEW.maturity_date;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to automatically generate payout schedule for Recurring Deposits
+CREATE OR REPLACE FUNCTION generate_rd_payout_schedule()
+RETURNS TRIGGER AS $$
+DECLARE
+  num_payouts INT;
+  payout_date DATE;
+  payout_amount NUMERIC;
+  i INT := 0;
+BEGIN
+  IF NEW.payout_method IN ('MONTHLY', 'QUARTERLY') THEN
+    -- Calculate number of payouts
+    IF NEW.payout_method = 'MONTHLY' THEN
+      num_payouts := NEW.duration_months;
+      payout_date := NEW.start_date;
+    ELSE -- QUARTERLY
+      num_payouts := CEIL(NEW.duration_months::NUMERIC / 3)::INT;
+      payout_date := NEW.start_date;
+    END IF;
+    
+    -- Calculate payout amount
+    payout_amount := calculate_rd_payout_amount(
+      NEW.monthly_amount, 
+      NEW.interest_rate, 
+      NEW.duration_months, 
+      NEW.payout_method
+    );
+    
+    -- Generate schedule
+    WHILE i < num_payouts LOOP
+      IF NEW.payout_method = 'MONTHLY' THEN
+        payout_date := NEW.start_date + (i || ' months')::INTERVAL;
+      ELSE
+        payout_date := NEW.start_date + (i * 3 || ' months')::INTERVAL;
+      END IF;
+      
+      INSERT INTO public.payout_schedule 
+      (deposit_id, deposit_type, payout_amount, scheduled_date, status)
+      VALUES (NEW.rd_id, 'RD', payout_amount, payout_date, 'PENDING')
+      ON CONFLICT DO NOTHING;
+      
+      i := i + 1;
+    END LOOP;
+    
+    -- Set next payout date
+    NEW.next_payout_date := NEW.start_date + INTERVAL '1 month';
+  ELSE
+    -- AT_MATURITY
+    NEW.next_payout_date := NEW.start_date + (NEW.duration_months || ' months')::INTERVAL;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create triggers
+CREATE TRIGGER fd_payout_schedule_trigger
+BEFORE INSERT ON public.fixed_deposits
+FOR EACH ROW
+EXECUTE FUNCTION generate_fd_payout_schedule();
+
+CREATE TRIGGER rd_payout_schedule_trigger
+BEFORE INSERT ON public.recurring_deposits
+FOR EACH ROW
+EXECUTE FUNCTION generate_rd_payout_schedule();  explain i esay langage what it is doing

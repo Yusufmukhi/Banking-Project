@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BankTrust • Secure Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100 flex items-center justify-center p-4">
+
+  <div class="w-full max-w-md bg-white/80 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-2xl p-8">
+
+    <!-- HEADER -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-extrabold text-slate-900">Welcome Back</h1>
+      <p class="text-slate-600 mt-2 text-sm">
+        Login to your BankTrust account
+      </p>
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <% if (errors && errors.login) { %>
+      <div class="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <%= errors.login %>
+      </div>
+    <% } %>
+
+    <!-- FORM -->
+    <form action="/login" method="POST" class="space-y-5">
+
+      <!-- USER ID -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          CIF / User ID / Email
+        </label>
+        <input
+          type="text"
+          name="id"
+          value="<%= old?.id || '' %>"
+          class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          placeholder="Enter CIF, User ID or Email"
+          required
+        />
+      </div>
+
+      <!-- PASSWORD -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          Password
+        </label>
+
+        <div class="relative">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="w-full rounded-lg border border-slate-300 px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            placeholder="••••••••"
+            required
+          />
+
+          <!-- TOGGLE -->
+          <button
+            type="button"
+            onclick="togglePassword()"
+            class="absolute inset-y-0 right-3 text-slate-500 hover:text-slate-700 text-sm font-semibold"
+          >
+            Show
+          </button>
+        </div>
+      </div>
+
+      <!-- REMEMBER -->
+      <div class="flex items-center gap-3">
+        <input type="checkbox" class="w-4 h-4 text-blue-600 rounded border-slate-300">
+        <span class="text-sm text-slate-600">Remember me</span>
+      </div>
+
+      <!-- SUBMIT -->
+      <button
+        type="submit"
+        class="w-full py-3 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.01] transition"
+      >
+        Login Securely
+      </button>
+    </form>
+
+    <!-- FOOTER -->
+    <p class="text-center mt-6 text-sm text-slate-600">
+      Don’t have an account?
+      <a href="/signup" class="font-semibold text-blue-600 hover:underline">
+        Open an Account
+      </a>
+    </p>
+  </div>
+
+  <!-- PASSWORD TOGGLE SCRIPT -->
+  <script>
+    function togglePassword() {
+      const input = document.getElementById("password")
+      input.type = input.type === "password" ? "text" : "password"
+    }
+  </script>
+
+</body>
+</html>

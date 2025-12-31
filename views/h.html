@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BankTrust | UPI Transfer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-gray-800">
+  <!-- TOP NAV -->
+  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
+    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
+    <div class="text-right">
+      <p class="font-semibold text-gray-900">Welcome, <%= Customers.username %></p>
+      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen bg-slate-50">
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
+      <ul class="space-y-2 text-gray-700">
+        <li><a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <span class="text-sm font-medium">Back</span>
+        </a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8 max-w-2xl">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">UPI Transfer</h1>
+
+      <form action="/transfer-upi/<%=id%>" method="POST" class="bg-white p-8 rounded-xl shadow-md border border-slate-200 space-y-6">
+        <!-- From Account -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">From Account</label>
+          <select name="from_account_id" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <option value="">Select account</option>
+            <% if(Accounts && Accounts.length > 0) { %>
+              <% Accounts.forEach(acc => { %>
+                <option value="<%= acc.account_id %>"><%= acc.account_type %> - <%= acc.account_number %></option>
+              <% }) %>
+            <% } %>
+          </select>
+        </div>
+
+        <!-- Recipient UPI -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Recipient UPI ID</label>
+          <input type="email" name="recipient_upi" placeholder="e.g., username@okhdfcbank" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
+        </div>
+
+        <!-- Amount -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Amount (₹)</label>
+          <input type="number" name="amount" placeholder="Enter amount" min="1" step="0.01" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
+        </div>
+
+        <!-- Remarks -->
+        <div class="space-y-2">
+          <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Remarks (Optional)</label>
+          <textarea name="remarks" placeholder="Add notes" rows="3" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+        </div>
+
+        <!-- Confirm -->
+        <div class="space-y-2">
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="confirm" required class="w-4 h-4 text-purple-600" />
+            <span class="text-sm text-gray-700">I confirm the UPI ID is correct</span>
+          </label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-4 pt-4">
+          <button type="submit" class="flex-1 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors">Transfer Now</button>
+          <a href="/transfers/<%=id%>" class="flex-1 bg-slate-200 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors text-center">Cancel</a>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

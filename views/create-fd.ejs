@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BankTrust | Create Fixed Deposit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 text-gray-800">
+
+  <!-- TOP NAV -->
+  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
+    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
+    <div class="text-right">
+      <p class="font-semibold text-gray-900">Welcome, <%=Customers.username %></p>
+      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
+    </div>
+  </header>
+
+  <div class="flex min-h-screen bg-slate-50">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
+      <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
+
+      <ul class="space-y-2 text-gray-700">
+        <li>
+          <a href="/" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4m-4-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            <span class="text-sm font-medium">Dashboard</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            <span class="text-sm font-medium">Accounts</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="text-sm font-medium">UPI</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold border-l-4 border-blue-600 transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-sm font-medium">Deposits</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-sm font-medium">Loans</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <span class="text-sm font-medium">Transfers</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="text-sm font-medium">Statements</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span class="text-sm font-medium">Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            <span class="text-sm font-medium">Logout</span>
+          </a>
+        </li>
+      </ul>
+
+      <hr class="my-6 border-slate-200">
+
+      <ul class="text-sm space-y-2">
+        <li>
+          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            Block Debit Card
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Report Fraud
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8 overflow-y-auto">
+
+      <!-- HEADER -->
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-900">Create Fixed Deposit</h1>
+        <p class="text-gray-600 mt-2">Invest in Fixed Deposits and earn guaranteed returns</p>
+      </div>
+
+      <!-- INFO CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
+          <p class="text-sm font-semibold text-blue-600 uppercase tracking-wider">Best Rate</p>
+          <p class="text-3xl font-bold text-blue-700 mt-2">7.50%</p>
+          <p class="text-xs text-blue-600 mt-1">p.a. for 1-2 years</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200">
+          <p class="text-sm font-semibold text-green-600 uppercase tracking-wider">Min Amount</p>
+          <p class="text-3xl font-bold text-green-700 mt-2">₹10,000</p>
+          <p class="text-xs text-green-600 mt-1">No upper limit</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200">
+          <p class="text-sm font-semibold text-purple-600 uppercase tracking-wider">Tenure</p>
+          <p class="text-3xl font-bold text-purple-700 mt-2">1-10 Years</p>
+          <p class="text-xs text-purple-600 mt-1">Flexible options</p>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200 max-w-2xl">
+
+        <form method="POST" action="/fd/create" class="space-y-6">
+
+          <!-- Select Account -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Select Account</label>
+            <select name="account_id" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+              <option value="">Choose account to deposit from</option>
+              <% Savings.forEach(acc => { %>
+                <option value="<%= acc.account_id %>"><%= acc.account_type %> • <%= acc.account_number.slice(-4) %> • ₹<%= acc.balance %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <!-- Deposit Amount -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Deposit Amount (₹)</label>
+            <input type="number" name="amount" min="10000" step="100" placeholder="Minimum ₹10,000" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+            <p class="text-xs text-gray-500 mt-1">Minimum ₹10,000 • Maximum ₹1,00,00,000</p>
+          </div>
+
+          <!-- Tenure -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Tenure (Years)</label>
+            <select name="tenure" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+              <option value="">Select tenure</option>
+              <option value="1 || 6.50">1 Year - 6.50% p.a.</option>
+              <option value="2 || 7.00">2 Years - 7.00% p.a.</option>
+              <option value="3 || 7.25">3 Years - 7.25% p.a.</option>
+              <option value="5 || 7.80 ">5 Years - 7.80% p.a.</option>
+              <option value="7 || 8.00">7 Years - 8.00% p.a.</option>
+              <option value="10 || 8.5">10 Years - 8.50% p.a.</option>
+            </select>
+          </div>
+
+          <!-- Interest Payout -->
+          
+
+          <!-- Interest Payout Account -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Interest Payout Account</label>
+            <select name="interest_account" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+              <option value="">Select account for interest credit</option>
+              <% Savings.forEach(acc => { %>
+                <option value="<%= acc.account_number %>"><%= acc.account_type %> • <%= acc.account_number.slice(-4) %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <!-- Maturity Amount Preview -->
+          <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <p class="text-sm text-blue-700 font-semibold">Estimated Maturity Amount</p>
+            <p class="text-2xl font-bold text-blue-600 mt-2">₹<span id="maturity-amount">0</span></p>
+            <p class="text-xs text-blue-600 mt-1">This is an estimate and may vary slightly</p>
+          </div>
+
+          <!-- Terms & Conditions -->
+          <div class="flex items-start gap-3">
+            <input type="checkbox" name="terms" id="terms" required class="w-4 h-4 mt-1 accent-blue-600">
+            <label for="terms" class="text-sm text-gray-700">
+              I agree to the <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold">Fixed Deposit Terms & Conditions</a>
+            </label>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex gap-4">
+            <button type="submit" class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md">
+              Create Fixed Deposit
+            </button>
+            <a href="/deposits/<%=id%>" class="flex-1 bg-slate-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors text-center">
+              Cancel
+            </a>
+          </div>
+
+        </form>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- <script>
+    // Calculate maturity amount
+    document.querySelector('form').addEventListener('change', function() {
+      const amount = parseFloat(document.querySelector('input[name="amount"]').value) || 0;
+      const tenure = parseFloat(document.querySelector('select[name="tenure"]').value) || 0;
+      
+      const rates = {
+        1: 6.50, 2: 7.00, 3: 7.25, 5: 7.50, 7: 7.25, 10: 7.00
+      };
+      const rate = rates[tenure] || 0;
+      
+      const maturityAmount = amount * Math.pow(1 + rate / 100, tenure);
+      document.getElementById('maturity-amount').textContent = Math.round(maturityAmount).toLocaleString('en-IN');
+    });
+  </script> -->
+
+</body>
+</html>
+

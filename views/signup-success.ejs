@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Created - BankTrust</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+  <div class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+
+    <div class="max-w-6xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+
+      <div class="grid grid-cols-1 lg:grid-cols-3">
+
+        <!-- LEFT SIDEBAR -->
+        <div class="p-8 sm:p-10 bg-gradient-to-b from-white to-blue-50 flex flex-col justify-between">
+
+          <div>
+            <!-- LOGO -->
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-500 text-white flex items-center justify-center font-bold text-2xl">
+                BT
+              </div>
+              <div>
+                <h1 class="text-2xl font-extrabold text-slate-900">BankTrust</h1>
+                <p class="text-sm text-slate-500">Digital Savings Account</p>
+              </div>
+            </div>
+
+            <!-- SUCCESS FEATURES -->
+            <div class="mt-10 space-y-6">
+
+              <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 font-bold text-lg">✔</div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">Account Activated</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Your account is now live and ready to use.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 font-bold text-lg">✔</div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">Identity Verified</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Your email and phone are verified.</p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center text-green-600 font-bold text-lg">✔</div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">Start Banking</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Login to access all banking services.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-500 mt-6">
+            Need help?
+            <a href="mailto:support@banktrust.com" class="text-blue-600 hover:underline">
+              support@banktrust.com
+            </a>
+          </div>
+
+        </div>
+
+        <!-- RIGHT SECTION -->
+        <div class="p-8 sm:p-10 lg:col-span-2">
+
+          <!-- Success Header -->
+          <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-900">Congratulations!</h2>
+            <p class="text-slate-600 mt-2">Your account has been created successfully</p>
+          </div>
+
+          <!-- Account Details Grid -->
+          <div class="bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl p-6 mb-6">
+            <h3 class="text-lg font-semibold text-slate-900 mb-4">Your Account Details</h3>
+            
+            <!-- Updated grid layout to match database fields -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              <!-- Account Number -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">Account Number</p>
+                <p class="text-slate-900 text-lg font-bold font-mono"><%= account.account_number || account.accno %></p>
+              </div>
+
+              <!-- CIF Number -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">CIF Number</p>
+                <p class="text-slate-900 text-lg font-bold font-mono"><%= account.cif %></p>
+              </div>
+
+              <!-- IFSC Code -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">IFSC Code</p>
+                <p class="text-slate-900 text-lg font-bold font-mono"><%= account.ifsc %></p>
+              </div>
+
+              <!-- Branch -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">Branch Name</p>
+                <p class="text-slate-900 text-lg font-bold"><%= account.branch_name || account.branchName %></p>
+              </div>
+
+              <!-- Email -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">Email Address</p>
+                <p class="text-slate-900 text-lg font-bold break-all"><%= account.email %></p>
+              </div>
+
+              <!-- Initial Amount -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">Opening Balance</p>
+                <p class="text-slate-900 text-lg font-bold">₹<%= account.opening_balance || account.initialAmount %></p>
+              </div>
+
+              <!-- Account Type -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">Account Type</p>
+                <p class="text-slate-900 text-lg font-bold"><%= account.account_type || 'Savings Account' %></p>
+              </div>
+
+              <!-- Account Status -->
+              <div class="bg-white rounded-lg p-4 border border-slate-200">
+                <p class="text-slate-600 text-xs font-medium mb-1">Status</p>
+                <p class="text-green-600 text-lg font-bold"><%= account.status || 'ACTIVE' %></p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Important Information -->
+          <div class="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-4 mb-6">
+            <h3 class="font-semibold text-blue-900 mb-3">Important Information</h3>
+            <ul class="text-sm text-blue-800 space-y-2">
+              <li>✓ Your account is now active and ready for all banking operations</li>
+              <li>✓ Login using your CIF or Username at any time</li>
+              <li>✓ A confirmation email has been sent to your registered email address</li>
+              <li>✓ Keep your account credentials safe and secure</li>
+              <li>✓ You can transfer funds, apply for loans, and manage investments</li>
+            </ul>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/login" class="flex-1 bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors text-center">
+              Go to Login
+            </a>
+            <a href="/" class="flex-1 bg-slate-200 text-slate-900 font-semibold py-3 rounded-lg hover:bg-slate-300 transition-colors text-center">
+              Go to Home
+            </a>
+          </div>
+
+          <!-- Footer Note -->
+          <div class="text-center mt-8 text-xs text-slate-600 p-4 bg-slate-50 rounded-lg">
+            <p>Keep your account details safe. Do not share your credentials with anyone.</p>
+            <p class="mt-2">For support, contact us at <span class="font-semibold">support@banktrust.com</span></p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
