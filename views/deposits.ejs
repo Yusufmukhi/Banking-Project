@@ -2,280 +2,261 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BankTrust | Deposits</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-50 text-gray-800">
 
   <!-- TOP NAV -->
-  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
-    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
-    <div class="text-right">
-      <p class="font-semibold text-gray-900">Welcome, <%=Customers.username %></p>
-      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
+  <header class="bg-white shadow-md px-4 sm:px-8 py-3 sm:py-5 flex justify-between items-center sticky top-0 z-40 border-b border-slate-200">
+    <!-- Added hamburger button for mobile menu -->
+    <button id="mobileMenuBtn" class="lg:hidden flex flex-col gap-1 p-2 rounded-lg transition-all duration-300 group hover:bg-blue-50 active:bg-blue-100">
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 origin-center transform group-active:rotate-45 group-active:translate-y-1.5"></span>
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 group-active:opacity-0"></span>
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 origin-center transform group-active:-rotate-45 group-active:-translate-y-1.5"></span>
+    </button>
+
+    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent flex-1 text-center lg:flex-none lg:text-left">BankTrust</div>
+
+    <!-- Made header text responsive and hidden on mobile -->
+    <div class="hidden sm:block text-right">
+      <p class="font-semibold text-gray-900 text-sm sm:text-base">Welcome, <%= Customers.username %></p>
+      <p class="text-xs text-gray-500">Customer ID: <%= Customers.cif %></p>
     </div>
   </header>
 
-  <div class="flex min-h-screen bg-slate-50">
+  <div class="flex min-h-screen relative">
 
-    <!-- LEFT SIDEBAR - STANDARD FOR ALL PAGES -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
-      <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
+    <!-- Made sidebar responsive with mobile overlay -->
+    <aside id="sidebar" class="fixed lg:static top-0 left-0 w-64 bg-white shadow-2xl min-h-screen p-4 sm:p-6 border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-all duration-300 ease-in-out z-30 overflow-y-auto">
+      <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 p-1 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
 
-      <ul class="space-y-2 text-gray-700">
-        <li>
-          <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg font-semibold transition-all">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4m-4-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-            </svg>
-            <span class="text-sm font-medium">Dashboard</span>
-          </a>
-        </li>
+      <h2 class="font-bold text-gray-900 mb-6 text-sm sm:text-lg uppercase tracking-wider">Navigation</h2>
 
-        <li>
-          <a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-            </svg>
-            <span class="text-sm font-medium">Accounts</span>
-          </a>
-        </li>
+      <ul class="space-y-1 text-gray-700">
+        <li><a href="/dashboard" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4m0 4a2 2 0 100-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+          <span>Dashboard</span>
+        </a></li>
 
-        <li>
-          <a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-            <span class="text-sm font-medium">UPI</span>
-          </a>
-        </li>
+        <li><a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+          <span>Accounts</span>
+        </a></li>
 
-        <li>
-          <a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold border-l-4 border-blue-600 transition-all">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="text-sm font-medium">Deposits</span>
-          </a>
-        </li>
+        <li><a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span>UPI</span>
+        </a></li>
 
-        <li>
-          <a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="text-sm font-medium">Loans</span>
-          </a>
-        </li>
+        <li><a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-blue-500 text-white rounded-lg font-semibold border-l-4 border-blue-600 transition-all text-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Deposits</span>
+        </a></li>
 
-        <li>
-          <a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-            </svg>
-            <span class="text-sm font-medium">Transfers</span>
-          </a>
-        </li>
+        <li><a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Loans</span>
+        </a></li>
 
-        <li>
-          <a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-            <span class="text-sm font-medium">Statements</span>
-          </a>
-        </li>
+        <li><a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+          <span>Transfers</span>
+        </a></li>
 
-        <li>
-          <a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <span class="text-sm font-medium">Profile</span>
-          </a>
-        </li>
+        <li><a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Statements</span>
+        </a></li>
 
-        <li>
-          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-            </svg>
-            <span class="text-sm font-medium">Logout</span>
-          </a>
-        </li>
+        <li><a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+          <span>Profile</span>
+        </a></li>
+
+        <li><a href="/logout" class="flex items-center gap-3 px-4 py-3 text-gray-900 hover:bg-red-500 rounded-lg transition-colors duration-200 text-sm font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <span>Logout</span>
+        </a></li>
       </ul>
 
       <hr class="my-6 border-slate-200">
 
+      <!-- Made quick actions more visible -->
       <ul class="text-sm space-y-2">
-        <li>
-          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-            </svg>
-            Block Debit Card
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            Report Fraud
-          </a>
-        </li>
+        <li><a href="/block-card" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium transition-colors text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          Block Debit Card
+        </a></li>
+        <li><a href="/report-fraud" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium transition-colors text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Report Fraud
+        </a></li>
       </ul>
     </aside>
 
+    <!-- Added mobile overlay backdrop for sidebar -->
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-20"></div>
+
     <!-- MAIN -->
-    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+    <main class="flex-1 p-4 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto w-full">
 
       <!-- HEADER -->
       <div>
-        <h1 class="text-4xl font-bold text-gray-900">Deposits</h1>
-        <p class="text-gray-600 mt-2">Manage your fixed and recurring deposits</p>
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900">Deposits</h1>
+        <p class="text-sm sm:text-base text-gray-600 mt-2">Manage your fixed and recurring deposits</p>
       </div>
 
       <!-- FIXED DEPOSITS SECTION -->
       <section class="space-y-6">
-        <div class="flex justify-between items-center">
-          <h2 class="text-2xl font-bold text-gray-800">Fixed Deposits</h2>
-          <a href="/fd/create" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Fixed Deposits</h2>
+          <a href="/fd/create" class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base">
+            <svg class="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             New FD
           </a>
         </div>
      
-        <!-- FD Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Made FD Cards Grid responsive -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <% fd.forEach(fd => {%>
-          <!-- FD Card 1 -->
-            
-            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 hover:shadow-lg transition-shadow duration-200">
-              <div class="flex justify-between items-start mb-4">
-                <div>
-                <p class="text-sm text-gray-600 mb-1">FD Amount</p>
-                <p class="text-2xl font-bold text-gray-900"><%= fd.amount %></p>
+          <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 border border-slate-200 hover:shadow-lg transition-shadow duration-200">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <p class="text-xs sm:text-sm text-gray-600 mb-1">FD Amount</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-900"><%= fd.amount %></p>
               </div>
-              <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold"><%= fd.status %></div>
+              <div class="px-2 sm:px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold"><%= fd.status %></div>
             </div>
-            <div class="space-y-3 mb-6 pb-6 border-b border-slate-200">
-              <div class="flex justify-between text-sm">
+            <div class="space-y-2 sm:space-y-3 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-slate-200">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Interest Rate</span>
                 <span class="font-semibold text-gray-900"><%= fd.interest_rate %>% p.a.</span>
               </div>
-              <div class="flex justify-between text-sm">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Duration</span>
                 <span class="font-semibold text-gray-900"><%= fd.duration_months %> months</span>
               </div>
-              <div class="flex justify-between text-sm">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Maturity Date</span>
                 <span class="font-semibold text-gray-900"><%= fd.start_date.toString().split("00")[0] %></span>
               </div>
-              <div class="flex justify-between text-sm">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Maturity Amount</span>
                 <span class="font-bold text-green-600"><%= fd.maturity_amount %></span>
               </div>
             </div>
-            <a href="/fd/details/<%=fd.fd_id%>" class="w-full px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-medium text-sm">View Details</a>
+            <a href="/fd/details/<%=fd.fd_id%>" class="w-full px-3 sm:px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200 font-medium text-xs sm:text-sm text-center">View Details</a>
           </div>
           <%}); %>
 
-          <!-- FD Card 2 -->
-        
-
           <!-- Empty State / Create New -->
-          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-md p-6 border border-blue-200 border-dashed flex flex-col items-center justify-center min-h-[280px] hover:shadow-lg transition-shadow duration-200">
-            <div class="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-md p-4 sm:p-6 border border-blue-200 border-dashed flex flex-col items-center justify-center min-h-[220px] sm:min-h-[280px] hover:shadow-lg transition-shadow duration-200">
+            <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-blue-200 flex items-center justify-center mb-3 sm:mb-4">
+              <svg class="w-5 sm:w-6 h-5 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             </div>
-            <p class="text-center text-gray-700 font-medium mb-4">Open a new Fixed Deposit</p>
-            <a href="/deposits/create-fd/<%=id%>" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-semibold">Create FD</a>
+            <p class="text-center text-gray-700 font-medium mb-3 sm:mb-4 text-sm sm:text-base">Open a new Fixed Deposit</p>
+            <a href="/deposits/create-fd/<%=id%>" class="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-xs sm:text-sm font-semibold">Create FD</a>
           </div>
         </div>
       </section>
 
       <!-- RECURRING DEPOSITS SECTION -->
-      <section class="space-y-6 mt-12">
-        <div class="flex justify-between items-center">
-          <h2 class="text-2xl font-bold text-gray-800">Recurring Deposits</h2>
-          <a href="/deposits/create-rd/<%=id%>" class="px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg font-semibold hover:shadow-lg hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+      <section class="space-y-6 mt-8 sm:mt-12">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Recurring Deposits</h2>
+          <a href="/deposits/create-rd/<%=id%>" class="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg font-semibold hover:shadow-lg hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base">
+            <svg class="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             New RD
           </a>
         </div>
 
-        <!-- RD Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- RD Card 1 -->
-           <% rd.forEach(rd => {%>
-            
-            <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200 hover:shadow-lg transition-shadow duration-200">
-              <div class="flex justify-between items-start mb-4">
-                <div>
-                  <p class="text-sm text-gray-600 mb-1">Monthly Amount</p>
-                  <p class="text-2xl font-bold text-gray-900"><%= rd.monthly_amount %></p>
+        <!-- Made RD Cards Grid responsive -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <% rd.forEach(rd => {%>
+          <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 border border-slate-200 hover:shadow-lg transition-shadow duration-200">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <p class="text-xs sm:text-sm text-gray-600 mb-1">Monthly Amount</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-900"><%= rd.monthly_amount %></p>
               </div>
-              <div class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold"><%= rd.status %></div>
+              <div class="px-2 sm:px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold"><%= rd.status %></div>
             </div>
-            <div class="space-y-3 mb-6 pb-6 border-b border-slate-200">
-              <div class="flex justify-between text-sm">
+            <div class="space-y-2 sm:space-y-3 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-slate-200">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Interest Rate</span>
                 <span class="font-semibold text-gray-900"><%= rd.interest_rate %>% p.a.</span>
               </div>
-              <div class="flex justify-between text-sm">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Duration</span>
                 <span class="font-semibold text-gray-900"><%= rd.duration_months %> months</span>
               </div>
-              <div class="flex justify-between text-sm">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Maturity Date</span>
                 <span class="font-semibold text-gray-900"><%= rd.start_date.toString().split("00")[0] %></span>
               </div>
-              <div class="flex justify-between text-sm">
+              <div class="flex justify-between text-xs sm:text-sm">
                 <span class="text-gray-600">Total Amount</span>
                 <span class="font-bold text-emerald-600">₹<%= rd.total_amount %></span>
               </div>
             </div>
-            <a href="/rd/details/<%=rd.rd_id%>" class="w-full px-4 py-2 border border-emerald-600 text-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors duration-200 font-medium text-sm">View Details</a>
+            <a href="/rd/details/<%=rd.rd_id%>" class="w-full px-3 sm:px-4 py-2 border border-emerald-600 text-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors duration-200 font-medium text-xs sm:text-sm text-center">View Details</a>
           </div>
-          
           <%}); %>
-          <!-- RD Card 2 -->
-         
 
           <!-- Empty State / Create New -->
-          <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl shadow-md p-6 border border-emerald-200 border-dashed flex flex-col items-center justify-center min-h-[280px] hover:shadow-lg transition-shadow duration-200">
-            <div class="w-12 h-12 rounded-full bg-emerald-200 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl shadow-md p-4 sm:p-6 border border-emerald-200 border-dashed flex flex-col items-center justify-center min-h-[220px] sm:min-h-[280px] hover:shadow-lg transition-shadow duration-200">
+            <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-emerald-200 flex items-center justify-center mb-3 sm:mb-4">
+              <svg class="w-5 sm:w-6 h-5 sm:h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             </div>
-            <p class="text-center text-gray-700 font-medium mb-4">Open a new Recurring Deposit</p>
-            <a href="/deposits/create-rd/<%=id%>" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors duration-200 text-sm font-semibold">Create RD</a>
+            <p class="text-center text-gray-700 font-medium mb-3 sm:mb-4 text-sm sm:text-base">Open a new Recurring Deposit</p>
+            <a href="/deposits/create-rd/<%=id%>" class="px-3 sm:px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors duration-200 text-xs sm:text-sm font-semibold">Create RD</a>
           </div>
         </div>
       </section>
 
-      <!-- SUMMARY SECTION -->
-      <!-- <section class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200">
-          <p class="text-gray-600 text-sm mb-2">Total FD Amount</p>
-          <p class="text-3xl font-bold text-blue-600">₹1,50,000</p>
-          <p class="text-xs text-gray-500 mt-2">2 active deposits</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200">
-          <p class="text-gray-600 text-sm mb-2">Total RD Amount</p>
-          <p class="text-3xl font-bold text-emerald-600">₹15,000/mo</p>
-          <p class="text-xs text-gray-500 mt-2">2 active deposits</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-200">
-          <p class="text-gray-600 text-sm mb-2">Expected Interest (Annual)</p>
-          <p class="text-3xl font-bold text-orange-600">₹18,500</p>
-          <p class="text-xs text-gray-500 mt-2">From all deposits</p>
-        </div>
-      </section> -->
-
     </main>
 
   </div>
+
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarBackdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    sidebarBackdrop.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close sidebar when clicking links
+    document.querySelectorAll('#sidebar a').forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        sidebarBackdrop.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+    });
+  </script>
+
 </body>
 </html>
