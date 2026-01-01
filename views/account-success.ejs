@@ -11,27 +11,37 @@
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 text-gray-800">
 
   <!-- TOP NAV -->
-  <header class="bg-white shadow-md px-8 py-4 flex justify-between items-center border-b border-gray-200">
-    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">BankTrust</div>
+  <header class="bg-white shadow-md px-4 sm:px-8 py-4 flex justify-between items-center border-b border-gray-200 fixed w-full top-0 z-30">
+    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">BankTrust</div>
 
-    <div class="text-right">
-      <p class="font-semibold text-gray-800">Welcome, John</p>
+    <!-- Added hamburger button for mobile -->
+    <button id="menuToggle" class="lg:hidden flex flex-col gap-1.5 hover:opacity-80 transition-opacity">
+      <span class="block w-6 h-0.5 bg-blue-600 rounded-full transition-all duration-300"></span>
+      <span class="block w-6 h-0.5 bg-blue-600 rounded-full transition-all duration-300"></span>
+      <span class="block w-6 h-0.5 bg-blue-600 rounded-full transition-all duration-300"></span>
+    </button>
+
+    <div class="text-right hidden sm:block">
+      <p class="font-semibold text-gray-800 text-sm sm:text-base">Welcome, John</p>
       <p class="text-xs text-gray-500">Customer ID: 56473829</p>
     </div>
   </header>
 
-  <div class="flex">
+  <!-- Added overlay for mobile menu -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-20 transition-opacity"></div>
+
+  <div class="flex pt-20 lg:pt-0">
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-gray-200">
+    <aside id="sidebar" class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-gray-200 fixed lg:static lg:translate-x-0 -translate-x-full lg:translate-x-0 z-40 overflow-y-auto transition-transform duration-300">
       <h2 class="font-bold text-gray-900 mb-6 text-lg tracking-wide">Navigation</h2>
 
       <ul class="space-y-2 text-gray-700 text-sm">
-        <li><a href="/" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold transition-all hover:bg-blue-100">
+        <li><a href="/dashboard" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold transition-all hover:bg-blue-100">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4-4" /></svg>
           Dashboard
         </a></li>
-        <li><a href="/dashboard" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition-all">
+        <li><a href="/accounts/<%= id %>" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
           Accounts
         </a></li>
@@ -79,27 +89,27 @@
     </aside>
 
     <!-- MAIN -->
-    <main class="flex-1 p-8 space-y-8">
+    <main class="flex-1 p-4 sm:p-8 space-y-8 w-full">
 
-      <section class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 max-w-2xl mx-auto text-center">
+      <section class="bg-white p-4 sm:p-8 rounded-2xl shadow-lg border border-gray-200 max-w-2xl mx-auto text-center">
 
         <!-- Enhanced success icon with better styling -->
-        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center shadow-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-green-600" fill="none"
+        <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-14 sm:h-14 text-green-600" fill="none"
             viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
           </svg>
         </div>
 
         <!-- Enhanced heading and subtitle with better typography -->
-        <h1 class="text-4xl font-bold text-gray-900 mt-8">
+        <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 mt-6 sm:mt-8">
           Account Created Successfully!
         </h1>
-        <p class="text-gray-600 mt-2 text-lg">Your account has been activated and is ready to use. Get started right away.</p>
+        <p class="text-gray-600 mt-2 text-sm sm:text-lg">Your account has been activated and is ready to use. Get started right away.</p>
 
         <!-- ACCOUNT DETAILS -->
-        <div class="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 text-left text-sm space-y-3">
-          <div class="grid grid-cols-2 gap-4">
+        <div class="mt-6 sm:mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 sm:p-6 text-left text-sm space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <p class="text-gray-500 text-xs uppercase tracking-wider">Customer ID</p>
               <p class="font-semibold text-gray-900"><%= customers.cif %></p>
@@ -132,24 +142,24 @@
         </div>
 
         <!-- ACTION BUTTONS -->
-        <div class="mt-8 space-y-3">
+        <div class="mt-6 sm:mt-8 space-y-3">
           <a href="#"
-            class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+            class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-2 sm:py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg text-sm sm:text-base">
             View Accounts
           </a>
 
           <a href="#"
-            class="block w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+            class="block w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white py-2 sm:py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg text-sm sm:text-base">
             Setup UPI
           </a>
 
           <a href="#"
-            class="block w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg">
+            class="block w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-2 sm:py-3 rounded-lg font-semibold transition-all shadow-md hover:shadow-lg text-sm sm:text-base">
             Apply for Debit Card
           </a>
 
           <a href="#"
-            class="block w-full border-2 border-gray-300 hover:border-gray-400 py-3 rounded-lg font-semibold bg-white text-gray-700 hover:bg-gray-50 transition-all">
+            class="block w-full border-2 border-gray-300 hover:border-gray-400 py-2 sm:py-3 rounded-lg font-semibold bg-white text-gray-700 hover:bg-gray-50 transition-all text-sm sm:text-base">
             Back to Dashboard
           </a>
         </div>
@@ -159,6 +169,42 @@
     </main>
 
   </div>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const hamburgerSpans = menuToggle.querySelectorAll('span');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+      
+      // Animate hamburger
+      hamburgerSpans[0].style.transform = sidebar.classList.contains('-translate-x-full') ? '' : 'rotate(-45deg) translate(-5px, 6px)';
+      hamburgerSpans[1].style.opacity = sidebar.classList.contains('-translate-x-full') ? '1' : '0';
+      hamburgerSpans[2].style.transform = sidebar.classList.contains('-translate-x-full') ? '' : 'rotate(45deg) translate(-4px, -6px)';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+      hamburgerSpans[0].style.transform = '';
+      hamburgerSpans[1].style.opacity = '1';
+      hamburgerSpans[2].style.transform = '';
+    });
+
+    // Close menu when clicking links
+    document.querySelectorAll('#sidebar a').forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+        hamburgerSpans[0].style.transform = '';
+        hamburgerSpans[1].style.opacity = '1';
+        hamburgerSpans[2].style.transform = '';
+      });
+    });
+  </script>
 
 </body>
 
