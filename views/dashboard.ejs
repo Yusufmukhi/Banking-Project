@@ -22,8 +22,8 @@
     <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
 
     <div class="hidden sm:block text-right">
-      <p class="font-semibold text-gray-900 text-sm sm:text-base">Welcome, <%=username %></p>
-      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= cif %></p>
+      <p class="font-semibold text-gray-900 text-sm sm:text-base">Welcome, <%=Customers.username %></p>
+      <p class="text-xs text-gray-500 mt-1">Customer ID: <%=Customers.cif %></p>
     </div>
   </header>
 
@@ -309,96 +309,4 @@
 
 </body>
 </html>
-<% }else{ %>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BankTrust | Welcome</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
 
-<body class="bg-white text-gray-800 antialiased">
-
-  <!-- TOP NAVBAR -->
-  <header class="bg-white shadow-md px-4 sm:px-8 py-3 sm:py-5 flex justify-between items-center border-b border-slate-200">
-    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
-    <div class="space-x-2 sm:space-x-4 flex items-center">
-      <a href="/login" class="text-blue-600 font-semibold hover:text-blue-700 transition-colors text-sm sm:text-base">Login</a>
-      <a href="/signup" class="bg-blue-600 text-white px-3 sm:px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md text-xs sm:text-base">Open Account</a>
-    </div>
-  </header>
-
-  <!-- HERO SECTION -->
-  <section class="bg-gradient-to-br from-blue-50 to-slate-100 py-16 sm:py-24 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
-        A Modern Digital Banking Experience
-      </h1>
-      <p class="text-gray-600 mt-4 sm:mt-6 text-base sm:text-lg md:text-xl max-w-2xl mx-auto">
-        Open your Savings Account in minutes. Enjoy secure, fast, and reliable banking at your fingertips.
-      </p>
-
-      <div class="mt-8 sm:mt-10">
-        <a href="/signup" class="inline-block px-6 sm:px-8 py-2 sm:py-4 bg-blue-600 text-white rounded-lg text-base sm:text-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg">Get Started Today</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="max-w-6xl mx-auto py-16 sm:py-20 px-4 sm:px-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-
-      <div class="bg-white p-6 sm:p-8 shadow-md rounded-xl border border-slate-200 hover:shadow-lg transition-shadow">
-        <div class="text-3xl sm:text-4xl mb-4">🏦</div>
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Open Savings Account</h2>
-        <p class="text-gray-600 mt-3 text-sm sm:text-base">Instant, paperless KYC. Zero balance options available.</p>
-      </div>
-
-      <div class="bg-white p-6 sm:p-8 shadow-md rounded-xl border border-slate-200 hover:shadow-lg transition-shadow">
-        <div class="text-3xl sm:text-4xl mb-4">📈</div>
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Fixed Deposits</h2>
-        <p class="text-gray-600 mt-3 text-sm sm:text-base">High interest rates up to 7.5% p.a.</p>
-      </div>
-
-      <div class="bg-white p-6 sm:p-8 shadow-md rounded-xl border border-slate-200 hover:shadow-lg transition-shadow">
-        <div class="text-3xl sm:text-4xl mb-4">💳</div>
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Loans & Credit</h2>
-        <p class="text-gray-600 mt-3 text-sm sm:text-base">Home, personal & vehicle loans with flexible EMIs.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- WHY CHOOSE US -->
-  <section class="max-w-6xl mx-auto py-16 sm:py-20 px-4 sm:px-6">
-    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 sm:mb-12">Why BankTrust?</h2>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-      <div class="flex items-start gap-4 p-4 sm:p-6 bg-blue-50 rounded-lg border border-blue-200">
-        <span class="text-2xl text-blue-600 flex-shrink-0">✓</span>
-        <span class="text-base sm:text-lg font-semibold text-gray-900">Secure & RBI Compliant</span>
-      </div>
-      <div class="flex items-start gap-4 p-4 sm:p-6 bg-blue-50 rounded-lg border border-blue-200">
-        <span class="text-2xl text-blue-600 flex-shrink-0">✓</span>
-        <span class="text-base sm:text-lg font-semibold text-gray-900">Instant UPI & Debit Card Activation</span>
-      </div>
-      <div class="flex items-start gap-4 p-4 sm:p-6 bg-blue-50 rounded-lg border border-blue-200">
-        <span class="text-2xl text-blue-600 flex-shrink-0">✓</span>
-        <span class="text-base sm:text-lg font-semibold text-gray-900">24/7 Customer Support</span>
-      </div>
-      <div class="flex items-start gap-4 p-4 sm:p-6 bg-blue-50 rounded-lg border border-blue-200">
-        <span class="text-2xl text-blue-600 flex-shrink-0">✓</span>
-        <span class="text-base sm:text-lg font-semibold text-gray-900">Transparent Charges & Policies</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="bg-white text-center text-gray-600 py-6 sm:py-8 border-t border-slate-200 mt-16 sm:mt-20 px-4">
-    <p class="font-semibold text-sm sm:text-base">© 2025 BankTrust. All Rights Reserved.</p>
-  </footer>
-
-</body>
-</html>
