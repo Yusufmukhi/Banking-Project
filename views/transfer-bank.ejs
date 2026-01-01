@@ -8,36 +8,56 @@
 </head>
 <body class="bg-slate-50 text-gray-800">
   <!-- TOP NAV -->
-  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
-    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
-    <div class="text-right">
-      <p class="font-semibold text-gray-900">Welcome, <%= Customers.username %></p>
+  <header class="bg-white shadow-md px-4 sm:px-8 py-3 sm:py-5 flex justify-between items-center sticky top-0 z-40 border-b border-slate-200">
+    <!-- Added mobile hamburger button with blue branding -->
+    <button id="mobileMenuBtn" class="lg:hidden flex flex-col gap-1 p-2 rounded-lg transition-all duration-300 group hover:bg-blue-50 active:bg-blue-100">
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 origin-center transform group-active:rotate-45 group-active:translate-y-1.5"></span>
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 group-active:opacity-0"></span>
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 origin-center transform group-active:-rotate-45 group-active:-translate-y-1.5"></span>
+    </button>
+
+    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent flex-1 text-center lg:flex-none lg:text-left lg:ml-0">BankTrust</div>
+
+    <!-- Added responsive welcome text with small screen hiding -->
+    <div class="hidden sm:block text-right order-3">
+      <p class="font-semibold text-gray-900 text-sm sm:text-base">Welcome, <%= Customers.username %></p>
       <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
     </div>
   </header>
 
-  <div class="flex min-h-screen bg-slate-50">
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
-      <ul class="space-y-2 text-gray-700">
-        <li><a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg">
+  <div class="flex min-h-screen relative">
+    <!-- Converted fixed sidebar to responsive overlay on mobile, static on desktop -->
+    <aside id="sidebar" class="fixed lg:static top-0 left-0 w-64 bg-white shadow-2xl min-h-screen p-4 sm:p-6 border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-all duration-300 ease-in-out z-30 overflow-y-auto">
+      <!-- Close button -->
+      <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 p-1 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <ul class="space-y-2 text-gray-700 mt-8 lg:mt-0">
+        <li><a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg text-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
-          <span class="text-sm font-medium">Back</span>
+          <span class="font-medium">Back</span>
         </a></li>
       </ul>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 p-8 max-w-2xl">
-      <h1 class="text-3xl font-bold text-gray-900 mb-8">Bank Transfer</h1>
+    <!-- Mobile overlay backdrop -->
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-20"></div>
 
-      <form action="/transfer-bank/<%=id%>" method="POST" class="bg-white p-8 rounded-xl shadow-md border border-slate-200 space-y-6">
+    <!-- MAIN CONTENT -->
+    <!-- Made main content responsive with proper padding and max-width for all screens -->
+    <main class="flex-1 p-4 sm:p-8 w-full overflow-y-auto">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Bank Transfer</h1>
+
+      <form action="/transfer-bank/<%=id%>" method="POST" class="bg-white p-4 sm:p-8 rounded-xl shadow-md border border-slate-200 space-y-6 max-w-2xl">
         <!-- From Account -->
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">From Account</label>
-          <select name="from_account_id" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <select name="from_account_id" required class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base">
             <option value="">Select account</option>
             <% if(Accounts && Accounts.length > 0) { %>
               <% Accounts.forEach(acc => { %>
@@ -50,51 +70,85 @@
         <!-- Recipient Details -->
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Recipient Bank Name</label>
-          <input type="text" name="recipient_bank" placeholder="e.g., HDFC Bank" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input type="text" name="recipient_bank" placeholder="e.g., HDFC Bank" required class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base" />
         </div>
 
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Recipient Account Number</label>
-          <input type="text" name="recipient_account" placeholder="Account number" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input type="text" name="recipient_account" placeholder="Account number" required class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base" />
         </div>
 
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Recipient IFSC Code</label>
-          <input type="text" name="recipient_ifsc" placeholder="e.g., HDFC0000001" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input type="text" name="recipient_ifsc" placeholder="e.g., HDFC0000001" required class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base" />
         </div>
 
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Recipient Name</label>
-          <input type="text" name="recipient_name" placeholder="Full name" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input type="text" name="recipient_name" placeholder="Full name" required class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base" />
         </div>
 
         <!-- Amount -->
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Amount (₹)</label>
-          <input type="number" name="amount" placeholder="Enter amount" min="1" step="0.01" required class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input type="number" name="amount" placeholder="Enter amount" min="1" step="0.01" required class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base" />
         </div>
 
         <!-- Remarks -->
         <div class="space-y-2">
           <label class="block text-sm font-semibold text-gray-900 uppercase tracking-wider">Remarks (Optional)</label>
-          <textarea name="remarks" placeholder="Add notes about this transfer" rows="3" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          <textarea name="remarks" placeholder="Add notes about this transfer" rows="3" class="w-full px-4 py-2 sm:py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"></textarea>
         </div>
 
         <!-- Confirm -->
         <div class="space-y-2">
           <label class="flex items-center gap-2">
             <input type="checkbox" name="confirm" required class="w-4 h-4 text-blue-600" />
-            <span class="text-sm text-gray-700">I confirm the recipient details are correct</span>
+            <span class="text-xs sm:text-sm text-gray-700">I confirm the recipient details are correct</span>
           </label>
         </div>
 
         <!-- Buttons -->
-        <div class="flex gap-4 pt-4">
-          <button type="submit" class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Transfer Now</button>
-          <a href="/transfers/<%=id%>" class="flex-1 bg-slate-200 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors text-center">Cancel</a>
+        <!-- Made buttons stack on mobile and align horizontally on desktop -->
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
+          <button type="submit" class="flex-1 bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm sm:text-base">Transfer Now</button>
+          <a href="/transfers/<%=id%>" class="flex-1 bg-slate-200 text-gray-900 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors text-center text-sm sm:text-base">Cancel</a>
         </div>
       </form>
     </main>
   </div>
+
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarBackdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    sidebarBackdrop.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    document.querySelectorAll('#sidebar a').forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        sidebarBackdrop.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+    });
+  </script>
 </body>
 </html>

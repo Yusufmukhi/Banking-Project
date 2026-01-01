@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +10,35 @@
 <body class="bg-slate-50 text-gray-800">
 
   <!-- TOP NAV -->
-  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
-    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
+  <header class="bg-white shadow-md px-4 sm:px-8 py-5 flex justify-between items-center border-b border-slate-200">
+    <!-- Added hamburger button for mobile navigation -->
+    <button id="hamburger-btn" class="lg:hidden flex flex-col gap-1.5 focus:outline-none">
+      <span class="hamburger-line w-6 h-0.5 bg-blue-600 rounded transition-all duration-300"></span>
+      <span class="hamburger-line w-6 h-0.5 bg-blue-600 rounded transition-all duration-300"></span>
+      <span class="hamburger-line w-6 h-0.5 bg-blue-600 rounded transition-all duration-300"></span>
+    </button>
+    
+    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
     <div class="text-right">
-      <p class="font-semibold text-gray-900">Welcome, <%= user.username %></p>
+      <p class="text-sm sm:text-base font-semibold text-gray-900">Welcome, <%= user.username %></p>
       <p class="text-xs text-gray-500 mt-1">Customer ID: <%= user.cif %></p>
     </div>
   </header>
 
+  <!-- Mobile Backdrop -->
+  <div id="sidebar-backdrop" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"></div>
+
   <div class="flex min-h-screen bg-slate-50">
 
     <!-- LEFT SIDEBAR -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
+    <aside id="sidebar" class="fixed lg:static left-0 top-16 w-64 bg-white shadow-lg lg:shadow-none max-h-[calc(100vh-64px)] lg:max-h-screen overflow-y-auto p-6 border-r border-slate-200 -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40">
+      <!-- Added close button for mobile sidebar -->
+      <button id="close-sidebar" class="lg:hidden absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
       <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
 
       <ul class="space-y-2 text-gray-700">
@@ -56,11 +72,11 @@
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+    <main class="flex-1 p-4 sm:p-8 space-y-8 overflow-y-auto">
 
       <!-- EDIT PROFILE FORM -->
-      <section class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Edit Profile</h2>
+      <section class="bg-white p-4 sm:p-8 rounded-xl shadow-md border border-slate-200">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Edit Profile</h2>
 
         <form method="POST" action="/edit-profile/<%=user.customer_id%>" class="space-y-6">
 
@@ -163,7 +179,7 @@
           </div>
 
           <!-- Buttons -->
-          <div class="flex gap-4 mt-8">
+          <div class="flex flex-col sm:flex-row gap-4 mt-8">
             <button 
               type="submit" 
               class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
@@ -171,7 +187,7 @@
             </button>
             <a 
               href="/profile/<%= user.id %>" 
-              class="bg-slate-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-slate-600 transition-colors">
+              class="bg-slate-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-slate-600 transition-colors text-center">
               Cancel
             </a>
           </div>
@@ -193,6 +209,28 @@
     </main>
 
   </div>
+
+  <script>
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    const closeSidebarBtn = document.getElementById('close-sidebar');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('-translate-x-full');
+      backdrop.classList.toggle('hidden');
+      document.body.style.overflow = sidebar.classList.contains('-translate-x-full') ? 'auto' : 'hidden';
+    }
+
+    hamburgerBtn.addEventListener('click', toggleSidebar);
+    closeSidebarBtn.addEventListener('click', toggleSidebar);
+    backdrop.addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking on a link
+    sidebar.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', toggleSidebar);
+    });
+  </script>
 
 </body>
 </html>

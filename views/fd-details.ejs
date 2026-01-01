@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,20 +9,35 @@
 
 <body class="bg-slate-50 text-gray-800">
 
-  <!-- TOP NAV -->
-  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
-    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
-    <div class="text-right">
-      <p class="font-semibold text-gray-900">Welcome, <%=Customers.username %></p>
-      <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
+  <!-- Updated header with responsive padding and hamburger button -->
+  <header class="bg-white shadow-md px-4 sm:px-8 py-3 sm:py-5 flex justify-between items-center sticky top-0 z-40 border-b border-slate-200">
+    <!-- Added hamburger button for mobile menu -->
+    <button id="mobileMenuBtn" class="lg:hidden flex flex-col gap-1 p-2 rounded-lg transition-all duration-300 group hover:bg-blue-50 active:bg-blue-100">
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 origin-center transform group-active:rotate-45 group-active:translate-y-1.5"></span>
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 group-active:opacity-0"></span>
+      <span class="w-6 h-0.5 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-300 origin-center transform group-active:-rotate-45 group-active:-translate-y-1.5"></span>
+    </button>
+
+    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent flex-1 text-center lg:flex-none lg:text-left lg:ml-0">BankTrust</div>
+
+    <div class="hidden sm:block text-right">
+      <p class="font-semibold text-gray-900 text-sm sm:text-base">Welcome, <%=Customers.username %></p>
+      <p class="text-xs text-gray-500">Customer ID: <%= Customers.cif %></p>
     </div>
   </header>
 
-  <div class="flex min-h-screen bg-slate-50">
+  <div class="flex min-h-screen relative">
 
-    <!-- LEFT SIDEBAR -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
-      <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
+    <!-- Converted sidebar to mobile overlay with responsive styling -->
+    <aside id="sidebar" class="fixed lg:static top-0 left-0 w-64 bg-white shadow-2xl min-h-screen p-4 sm:p-6 border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-all duration-300 ease-in-out z-30 overflow-y-auto">
+      <!-- Added close button for mobile sidebar -->
+      <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 p-1 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <h2 class="font-bold text-gray-900 mb-6 text-sm sm:text-lg uppercase tracking-wider">Navigation</h2>
 
       <ul class="space-y-2 text-gray-700">
         <li>
@@ -34,7 +48,6 @@
             <span class="text-sm font-medium">Dashboard</span>
           </a>
         </li>
-
         <li>
           <a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +56,6 @@
             <span class="text-sm font-medium">Accounts</span>
           </a>
         </li>
-
         <li>
           <a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,7 +64,6 @@
             <span class="text-sm font-medium">UPI</span>
           </a>
         </li>
-
         <li>
           <a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold border-l-4 border-blue-600 transition-all">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +72,6 @@
             <span class="text-sm font-medium">Deposits</span>
           </a>
         </li>
-
         <li>
           <a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,7 +80,6 @@
             <span class="text-sm font-medium">Loans</span>
           </a>
         </li>
-
         <li>
           <a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +88,6 @@
             <span class="text-sm font-medium">Transfers</span>
           </a>
         </li>
-
         <li>
           <a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,7 +96,6 @@
             <span class="text-sm font-medium">Statements</span>
           </a>
         </li>
-
         <li>
           <a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,9 +104,8 @@
             <span class="text-sm font-medium">Profile</span>
           </a>
         </li>
-
         <li>
-          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
+          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
             </svg>
@@ -112,7 +118,7 @@
 
       <ul class="text-sm space-y-2">
         <li>
-          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+          <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
             </svg>
@@ -120,7 +126,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+          <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
@@ -130,47 +136,50 @@
       </ul>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+    <!-- Added mobile overlay backdrop -->
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-20"></div>
 
-      <!-- BREADCRUMB -->
-      <div class="flex items-center gap-2 text-sm text-gray-600">
+    <!-- Made main content responsive with proper overflow -->
+    <main class="flex-1 p-4 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto w-full">
+
+      <!-- Made breadcrumb responsive -->
+      <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
         <a href="/deposits/<%=id%>" class="text-blue-600 hover:underline">Deposits</a>
         <span>→</span>
-        <span>Fixed Deposit Details</span>
+        <span class="truncate">Fixed Deposit Details</span>
       </div>
 
-      <!-- FD HEADER CARD -->
-      <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-xl shadow-lg text-white">
-        <p class="text-blue-100 text-sm font-semibold uppercase tracking-wider">Fixed Deposit</p>
-        <h1 class="text-4xl font-bold mt-3">₹<%= fd.amount %></h1>
-        <p class="text-blue-100 mt-2">FD ID: <%= fd.fd_id %></p>
-        <div class="mt-6 flex gap-4">
-          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-semibold">Active</span>
-          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-semibold"><%= fd.tenure %> Months</span>
+      <!-- Made FD header responsive with scaled text -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-6 sm:p-8 rounded-xl shadow-lg text-white">
+        <p class="text-blue-100 text-xs sm:text-sm font-semibold uppercase tracking-wider">Fixed Deposit</p>
+        <h1 class="text-3xl sm:text-4xl font-bold mt-2 sm:mt-3">₹<%= fd.amount %></h1>
+        <p class="text-blue-100 mt-2 text-xs sm:text-sm">FD ID: <%= fd.fd_id %></p>
+        <div class="mt-4 sm:mt-6 flex flex-wrap gap-2 sm:gap-4">
+          <span class="px-3 sm:px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold">Active</span>
+          <span class="px-3 sm:px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold"><%= fd.tenure %> Months</span>
         </div>
       </div>
 
-      <!-- FD DETAILS GRID -->
-      <div class="grid md:grid-cols-2 gap-6">
+      <!-- Made grid responsive - 1 column on mobile, 2 on desktop -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
 
-        <!-- DEPOSIT INFO -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Information</h2>
-          <div class="space-y-4 text-sm">
-            <div class="flex justify-between pb-3 border-b border-slate-100">
+        <!-- Made cards responsive with scaled text -->
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-4 sm:mb-6">Deposit Information</h2>
+          <div class="space-y-3 sm:space-y-4 text-xs sm:text-sm">
+            <div class="flex justify-between pb-3 sm:pb-3 border-b border-slate-100">
               <span class="text-gray-600">Principal Amount</span>
               <span class="font-semibold text-gray-900">₹<%= fd.amount %></span>
             </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
+            <div class="flex justify-between pb-3 sm:pb-3 border-b border-slate-100">
               <span class="text-gray-600">Interest Rate</span>
               <span class="font-semibold text-gray-900"><%= fd.interest_rate %>% p.a.</span>
             </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
+            <div class="flex justify-between pb-3 sm:pb-3 border-b border-slate-100">
               <span class="text-gray-600">Tenure</span>
               <span class="font-semibold text-gray-900"><%= fd.tenure %> Months</span>
             </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
+            <div class="flex justify-between pb-3 sm:pb-3 border-b border-slate-100">
               <span class="text-gray-600">Opened On</span>
               <span class="font-semibold text-gray-900"><%= fd.start_date.toDateString() %></span>
             </div>
@@ -181,15 +190,14 @@
           </div>
         </div>
 
-        <!-- MATURITY CALCULATION -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Maturity Calculation</h2>
-          <div class="space-y-4 text-sm">
-            <div class="flex justify-between pb-3 border-b border-slate-100">
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-4 sm:mb-6">Maturity Calculation</h2>
+          <div class="space-y-3 sm:space-y-4 text-xs sm:text-sm">
+            <div class="flex justify-between pb-3 sm:pb-3 border-b border-slate-100">
               <span class="text-gray-600">Principal</span>
               <span class="font-semibold text-gray-900">₹<%= fd.amount %></span>
             </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
+            <div class="flex justify-between pb-3 sm:pb-3 border-b border-slate-100">
               <span class="text-gray-600">Interest Earned</span>
               <span class="font-semibold text-green-600">₹<%= fd.interest_amount %></span>
             </div>
@@ -202,13 +210,12 @@
 
       </div>
 
-      <!-- PAYOUT & SETTINGS -->
-      <div class="grid md:grid-cols-2 gap-6">
+      <!-- Made payout grid responsive -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
 
-        <!-- PAYOUT PREFERENCE -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Payout Preference</h2>
-          <div class="space-y-3 text-sm">
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-4 sm:mb-6">Payout Preference</h2>
+          <div class="space-y-2 sm:space-y-3 text-xs sm:text-sm">
             <div class="p-3 bg-slate-50 rounded-lg">
               <p class="text-gray-600">Payout Type</p>
               <p class="font-semibold text-gray-900 mt-1"><%= fd.payout_type %></p>
@@ -226,60 +233,91 @@
           </div>
         </div>
 
-        <!-- LINKED ACCOUNT -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Linked Account</h2>
+        <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-4 sm:mb-6">Linked Account</h2>
           <div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-            <p class="text-gray-600 text-sm">Savings Account</p>
-            <p class="font-bold text-gray-900 mt-2"><%= fd.account_number %></p>
-            <p class="text-sm text-gray-500 mt-1">Interest & Maturity Amount will be credited to this account</p>
+            <p class="text-gray-600 text-xs sm:text-sm">Savings Account</p>
+            <p class="font-bold text-gray-900 mt-2 text-sm sm:text-base"><%= fd.account_number %></p>
+            <p class="text-xs text-gray-500 mt-1">Interest & Maturity Amount will be credited to this account</p>
           </div>
         </div>
 
       </div>
 
-      <!-- INTEREST SCHEDULE -->
-      <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
-        <h2 class="text-lg font-bold text-gray-900 mb-6">Interest Payment Schedule</h2>
+      <!-- Made table responsive with horizontal scroll on mobile -->
+      <div class="bg-white p-4 sm:p-8 rounded-xl shadow-md border border-slate-200 overflow-x-auto">
+        <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-4 sm:mb-6">Interest Payment Schedule</h2>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
+          <table class="w-full text-left text-xs sm:text-sm">
             <thead>
               <tr class="border-b-2 border-slate-200 bg-slate-50">
-                <th class="py-3 px-4 font-semibold text-gray-700">Date</th>
-                <th class="py-3 px-4 font-semibold text-gray-700">Interest Amount</th>
-                <th class="py-3 px-4 font-semibold text-gray-700">Status</th>
+                <th class="py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700">Date</th>
+                <th class="py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700">Interest Amount</th>
+                <th class="py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr class="border-b border-slate-100 hover:bg-slate-50">
-                <td class="py-3 px-4">24 Feb 2025</td>
-                <td class="py-3 px-4 font-semibold text-green-600">+₹<%= fd.monthly_interest %></td>
-                <td class="py-3 px-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Credited</span></td>
+                <td class="py-2 sm:py-3 px-2 sm:px-4">24 Feb 2025</td>
+                <td class="py-2 sm:py-3 px-2 sm:px-4 font-semibold text-green-600">+₹<%= fd.monthly_interest %></td>
+                <td class="py-2 sm:py-3 px-2 sm:px-4"><span class="px-2 sm:px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Credited</span></td>
               </tr>
               <tr class="border-b border-slate-100 hover:bg-slate-50">
-                <td class="py-3 px-4">24 Mar 2025</td>
-                <td class="py-3 px-4 font-semibold text-blue-600">+₹<%= fd.monthly_interest %></td>
-                <td class="py-3 px-4"><span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Upcoming</span></td>
+                <td class="py-2 sm:py-3 px-2 sm:px-4">24 Mar 2025</td>
+                <td class="py-2 sm:py-3 px-2 sm:px-4 font-semibold text-blue-600">+₹<%= fd.monthly_interest %></td>
+                <td class="py-2 sm:py-3 px-2 sm:px-4"><span class="px-2 sm:px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Upcoming</span></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- ACTION BUTTONS -->
-      <div class="flex gap-4 pt-4">
-        <button class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md">
+      <!-- Made buttons responsive - stack on mobile, side-by-side on desktop -->
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
+        <button class="w-full bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md text-sm sm:text-base">
           Pre-Mature Withdrawal
         </button>
-        <button class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md">
+        <button class="w-full bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md text-sm sm:text-base">
           Download Certificate
         </button>
       </div>
 
     </main>
-
   </div>
+
+  <!-- Added mobile menu toggle script -->
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarBackdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    sidebarBackdrop.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    document.querySelectorAll('#sidebar a').forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        sidebarBackdrop.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+    });
+  </script>
 
 </body>
 </html>
-

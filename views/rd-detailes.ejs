@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +10,36 @@
 <body class="bg-slate-50 text-gray-800">
 
   <!-- TOP NAV -->
-  <header class="bg-white shadow-md px-8 py-5 flex justify-between items-center border-b border-slate-200">
-    <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
-    <div class="text-right">
-      <p class="font-semibold text-gray-900">Welcome, <%=Customers.username %></p>
+  <header class="bg-white shadow-md px-4 sm:px-8 py-5 flex justify-between items-center border-b border-slate-200">
+    <div class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">BankTrust</div>
+    
+    <!-- Add hamburger menu button for mobile -->
+    <button id="mobileMenuBtn" class="lg:hidden flex flex-col gap-1.5 p-2">
+      <span class="w-6 h-0.5 bg-blue-600 transition-all duration-300"></span>
+      <span class="w-6 h-0.5 bg-blue-600 transition-all duration-300"></span>
+      <span class="w-6 h-0.5 bg-blue-600 transition-all duration-300"></span>
+    </button>
+
+    <div class="text-right hidden sm:block">
+      <p class="font-semibold text-gray-900 text-sm sm:text-base">Welcome, <%=Customers.username %></p>
       <p class="text-xs text-gray-500 mt-1">Customer ID: <%= Customers.cif %></p>
     </div>
   </header>
 
+  <!-- Add mobile menu overlay backdrop -->
+  <div id="mobileMenuBackdrop" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"></div>
+
   <div class="flex min-h-screen bg-slate-50">
 
     <!-- LEFT SIDEBAR -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200">
+    <aside id="sidebar" class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200 fixed left-0 top-0 z-40 transform -translate-x-full transition-transform duration-300 lg:translate-x-0 lg:static lg:z-0">
+      <!-- Add close button for mobile sidebar -->
+      <button id="closeSidebarBtn" class="lg:hidden absolute top-4 right-4 text-gray-600 hover:text-gray-900">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
       <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
 
       <ul class="space-y-2 text-gray-700">
@@ -99,7 +116,7 @@
         </li>
 
         <li>
-          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200">
+          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-white hover:bg-red-700 rounded-lg transition-all duration-200 bg-red-600">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
             </svg>
@@ -131,7 +148,7 @@
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 p-8 space-y-8 overflow-y-auto">
+    <main class="flex-1 p-4 sm:p-8 space-y-8 overflow-y-auto w-full">
 
       <!-- BREADCRUMB -->
       <div class="flex items-center gap-2 text-sm text-gray-600">
@@ -141,18 +158,18 @@
       </div>
       
       <!-- RD HEADER CARD -->
-      <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-8 rounded-xl shadow-lg text-white">
-        <p class="text-purple-100 text-sm font-semibold uppercase tracking-wider">Recurring Deposit</p>
-        <h1 class="text-4xl font-bold mt-3">₹<%= rd.monthly_amount %>/Month</h1>
-        <p class="text-purple-100 mt-2">RD ID: <%= rd.rd_id %></p>
-        <div class="mt-6 flex gap-4">
-          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-semibold">Active</span>
-          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-sm font-semibold"><%= rd.total_months %> Months</span>
+      <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 sm:p-8 rounded-xl shadow-lg text-white">
+        <p class="text-purple-100 text-xs sm:text-sm font-semibold uppercase tracking-wider">Recurring Deposit</p>
+        <h1 class="text-2xl sm:text-4xl font-bold mt-3">₹<%= rd.monthly_amount %>/Month</h1>
+        <p class="text-purple-100 mt-2 text-sm">RD ID: <%= rd.rd_id %></p>
+        <div class="mt-6 flex flex-wrap gap-4">
+          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold">Active</span>
+          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold"><%= rd.total_months %> Months</span>
         </div>
       </div>
 
       <!-- RD DETAILS GRID -->
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <!-- DEPOSIT INFO -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
@@ -171,22 +188,20 @@
               <span class="font-semibold text-gray-900"><%= rd.interest_rate %>% p.a.</span>
             </div>
             <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Last Deposit date Date</span>
+              <span class="text-gray-600">Last Deposit Date</span>
               <span class="font-semibold text-gray-900">
-  <%= rd.last_payout_date 
-      ? new Date(rd.last_payout_date).toDateString()
-      : '— Not deposited yet —' %>
-</span>
-
+                <%= rd.last_payout_date 
+                    ? new Date(rd.last_payout_date).toDateString()
+                    : '— Not deposited yet —' %>
+              </span>
             </div>
             <div class="flex justify-between pt-2">
               <span class="text-gray-600 font-semibold">Next Deposit</span>
               <span class="font-bold text-green-600">
-  <%= rd.last_payout_date
-      ? new Date(rd.next_payout_date).toDateString()
-      : new Date(payment_schedule[0]?.scheduled_date).toDateString() %>
-</span>
-
+                <%= rd.last_payout_date
+                    ? new Date(rd.next_payout_date).toDateString()
+                    : new Date(payment_schedule[0]?.scheduled_date).toDateString() %>
+              </span>
             </div>
           </div>
         </div>
@@ -198,9 +213,8 @@
             <div class="flex justify-between pb-3 border-b border-slate-100">
               <span class="text-gray-600">Total Deposits</span>
               <span class="font-semibold text-gray-900">
-  ₹<%= totalDeposits %>
-</span>
-
+                ₹<%= totalDeposits %>
+              </span>
             </div>
             <div class="flex justify-between pb-3 border-b border-slate-100">
               <span class="text-gray-600">Interest Earned</span>
@@ -212,34 +226,29 @@
             </div>
           </div>
           <!-- MATURITY ACTION -->
-<div class="pt-4 border-t border-slate-200 mt-4">
-
-  <% if (maturity) { %>
-    <!-- RD COMPLETED -->
-    <form action="/claim" method="get">
-      <button
-        class="w-full bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-md">
-        Claim Maturity Amount
-      </button>
-    </form>
-  <% } else { %>
-    <!-- RD NOT COMPLETED -->
-    <form action="/rd/close" method="get">
-      <button
-        class="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-md">
-        Close RD (Premature)
-      </button>
-    </form>
-  <% } %>
-
-</div>
-
+          <div class="pt-4 border-t border-slate-200 mt-4">
+            <% if (maturity) { %>
+              <!-- RD COMPLETED -->
+              <form action="/claim" method="get">
+                <button class="w-full bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-md">
+                  Claim Maturity Amount
+                </button>
+              </form>
+            <% } else { %>
+              <!-- RD NOT COMPLETED -->
+              <form action="/rd/close" method="get">
+                <button class="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-md">
+                  Close RD (Premature)
+                </button>
+              </form>
+            <% } %>
+          </div>
         </div>
 
       </div>
 
       <!-- PAYOUT & SETTINGS -->
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <!-- DEPOSIT STATUS -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
@@ -273,113 +282,107 @@
       </div>
 
       <!-- DEPOSIT SCHEDULE -->
-     <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
-  <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Schedule</h2>
+      <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-slate-200">
+        <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Schedule</h2>
 
-  <div class="overflow-x-auto">
-    <table class="w-full text-left text-sm">
-      <thead>
-        <tr class="border-b-2 border-slate-200 bg-slate-50">
-          <th class="py-3 px-4 font-semibold text-gray-700">Month</th>
-          <th class="py-3 px-4 font-semibold text-gray-700">Deposit Due</th>
-          <th class="py-3 px-4 font-semibold text-gray-700">Amount</th>
-          <th class="py-3 px-4 font-semibold text-gray-700">Status</th>
-          <th class="py-3 px-4 font-semibold text-gray-700">Action</th>
-        </tr>
-      </thead>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b-2 border-slate-200 bg-slate-50">
+                <th class="py-3 px-4 font-semibold text-gray-700">Month</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Deposit Due</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Amount</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Status</th>
+                <th class="py-3 px-4 font-semibold text-gray-700">Action</th>
+              </tr>
+            </thead>
 
-<%
-const today = new Date();
-today.setHours(0,0,0,0);
+            <%
+            const today = new Date();
+            today.setHours(0,0,0,0);
 
-const lastPaid = rd.last_payout_date ? new Date(rd.last_payout_date) : null;
-if (lastPaid) lastPaid.setHours(0,0,0,0);
-%>
+            const lastPaid = rd.last_payout_date ? new Date(rd.last_payout_date) : null;
+            if (lastPaid) lastPaid.setHours(0,0,0,0);
+            %>
 
-<tbody>
-<% payment_schedule.forEach((pay, index) => {
+            <tbody>
+            <% payment_schedule.forEach((pay, index) => {
 
-  const scheduleDate = new Date(pay.scheduled_date);
-  scheduleDate.setHours(0,0,0,0);
+              const scheduleDate = new Date(pay.scheduled_date);
+              scheduleDate.setHours(0,0,0,0);
 
-  // difference in days
-  const diffTime = scheduleDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+              const diffTime = scheduleDate.getTime() - today.getTime();
+              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  let statusText = "";
-  let statusClass = "";
-  let canPay = false;
+              let statusText = "";
+              let statusClass = "";
+              let canPay = false;
 
-  // ✅ STATUS LOGIC
-  if (pay.status === "PAID") {
-    statusText = "Completed";
-    statusClass = "bg-green-100 text-green-700";
-  }
-  else if (lastPaid && scheduleDate <= lastPaid) {
-    statusText = "Completed";
-    statusClass = "bg-green-100 text-green-700";
-  }
-  else if (diffDays > 7) {
-    statusText = "Scheduled";
-    statusClass = "bg-slate-100 text-slate-700";
-  }
-  else if (diffDays >= 0 && diffDays <= 7) {
-    statusText = "Payable";
-    statusClass = "bg-blue-100 text-blue-700";
-    canPay = true;
-  }
-  else {
-    statusText = "Late";
-    statusClass = "bg-red-100 text-red-700";
-    canPay = true;
-  }
-%>
+              if (pay.status === "PAID") {
+                statusText = "Completed";
+                statusClass = "bg-green-100 text-green-700";
+              }
+              else if (lastPaid && scheduleDate <= lastPaid) {
+                statusText = "Completed";
+                statusClass = "bg-green-100 text-green-700";
+              }
+              else if (diffDays > 7) {
+                statusText = "Scheduled";
+                statusClass = "bg-slate-100 text-slate-700";
+              }
+              else if (diffDays >= 0 && diffDays <= 7) {
+                statusText = "Payable";
+                statusClass = "bg-blue-100 text-blue-700";
+                canPay = true;
+              }
+              else {
+                statusText = "Late";
+                statusClass = "bg-red-100 text-red-700";
+                canPay = true;
+              }
+            %>
 
-<tr class="border-b border-slate-100 hover:bg-slate-50">
-  <td class="py-3 px-4">Month <%= index + 1 %></td>
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+              <td class="py-3 px-4 text-xs sm:text-sm">Month <%= index + 1 %></td>
 
-  <td class="py-3 px-4">
-    <%= scheduleDate.toDateString() %>
-  </td>
+              <td class="py-3 px-4 text-xs sm:text-sm">
+                <%= scheduleDate.toDateString() %>
+              </td>
 
-  <td class="py-3 px-4 font-semibold text-purple-600">
-    ₹<%= rd.monthly_amount %>
-  </td>
+              <td class="py-3 px-4 font-semibold text-purple-600 text-xs sm:text-sm">
+                ₹<%= rd.monthly_amount %>
+              </td>
 
-  <!-- STATUS -->
-  <td class="py-3 px-4">
-    <span class="px-3 py-1 rounded-full text-xs font-semibold <%= statusClass %>">
-      <%= statusText %>
-    </span>
-  </td>
+              <td class="py-3 px-4">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold <%= statusClass %>">
+                  <%= statusText %>
+                </span>
+              </td>
 
-  <!-- ACTION -->
-  <td class="py-3 px-4">
-    <% if (canPay) { %>
-      <form action="/pay/<%= rd.rd_id %>" method="get">
-        <input type="hidden" name="scheduled_date" value="<%= pay.scheduled_date %>">
-        <input type="hidden" name="amount" value="<%= rd.monthly_amount %>">
-        <input type="hidden" name="month_no" value="<%= index + 1 %>">
-        <button
-          class="px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors">
-          Pay Now
-        </button>
-      </form>
-    <% } else { %>
-      <span class="text-xs text-gray-400">—</span>
-    <% } %>
-  </td>
-</tr>
+              <td class="py-3 px-4">
+                <% if (canPay) { %>
+                  <form action="/pay/<%= rd.rd_id %>" method="get">
+                    <input type="hidden" name="scheduled_date" value="<%= pay.scheduled_date %>">
+                    <input type="hidden" name="amount" value="<%= rd.monthly_amount %>">
+                    <input type="hidden" name="month_no" value="<%= index + 1 %>">
+                    <button class="px-3 sm:px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                      Pay Now
+                    </button>
+                  </form>
+                <% } else { %>
+                  <span class="text-xs text-gray-400">—</span>
+                <% } %>
+              </td>
+            </tr>
 
-<% }); %>
-</tbody>
-    </table>
-  </div>
-</div>
-
+            <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <!-- ACTION BUTTONS -->
-      <div class="flex gap-4 pt-4">
+      <div class="flex flex-col sm:flex-row gap-4 pt-4">
         <button class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md">
           Close RD
         </button>
@@ -392,6 +395,32 @@ if (lastPaid) lastPaid.setHours(0,0,0,0);
 
   </div>
 
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+    function openMenu() {
+      sidebar.classList.remove('-translate-x-full');
+      mobileMenuBackdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      sidebar.classList.add('-translate-x-full');
+      mobileMenuBackdrop.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    mobileMenuBtn.addEventListener('click', openMenu);
+    closeSidebarBtn.addEventListener('click', closeMenu);
+    mobileMenuBackdrop.addEventListener('click', closeMenu);
+
+    sidebar.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  </script>
+
 </body>
 </html>
-
