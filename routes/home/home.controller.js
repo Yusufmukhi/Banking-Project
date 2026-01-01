@@ -40,7 +40,9 @@ export async function user(req, res) {
     const rd = await cust.getRD(id);
 
     console.log(Emi);
-
+   const transactions = await cust.getAllTransactions(id);
+   console.log(transactions);
+   
     // RENDER (unchanged keys)
     return res.render("dashboard.ejs", {
       user: req.session.customer,
@@ -50,7 +52,8 @@ export async function user(req, res) {
       rd: rd,
       fd: fd,
       emi: Emi,
-      id
+      id,
+      trans: transactions,
     });
 
   } catch (err) {

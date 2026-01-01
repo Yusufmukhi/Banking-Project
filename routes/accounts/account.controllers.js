@@ -136,10 +136,13 @@ export async function deatlis(req, res) {
   }
 
   const customer = await data.getCustomer(customerId);
-
+  const treansactions = await data.getTransactionsByAccount(11);
+  console.log(treansactions);
+  
   return res.render("details-account.ejs", {
     id: customerId,
     acc: result.rows[0],
-    cust: customer
+    cust: customer,
+    transactions: treansactions
   });
 }

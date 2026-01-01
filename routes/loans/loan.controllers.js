@@ -60,6 +60,7 @@ export async function getLoans(req, res) {
   TotalOutstanding: totalOutstanding.toLocaleString("en-IN"),
   NextEMI: nextEMI.toLocaleString("en-IN"),
   TotalPenalties: totalPenalties.toLocaleString("en-IN"),
+  Accounts: await data.getAccounts(id),
 });
 
   } catch (err) {

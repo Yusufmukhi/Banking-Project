@@ -26,6 +26,9 @@ router.use("/",fd)
 router.use("/",loan)
 router.use("/",transfer)
 router.use("/",profile)
+router.use("/statements/:id",(req, res) => {
+  res.render("404.ejs");
+});
 
 
 

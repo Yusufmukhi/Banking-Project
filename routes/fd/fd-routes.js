@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/deposits/:id", getdeposit);
 
 // Create FD
-router.get("/deposits/create-fd", createfd);
+router.get("/deposits/create-fd/:id", createfd);
 router.get("/fd/create", getcreatefd);
 router.post("/fd/create", postcreatefd);
 

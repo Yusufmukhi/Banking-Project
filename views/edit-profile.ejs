@@ -31,28 +31,80 @@
   <div class="flex min-h-screen bg-slate-50">
 
     <!-- LEFT SIDEBAR -->
-    <aside id="sidebar" class="fixed lg:static left-0 top-16 w-64 bg-white shadow-lg lg:shadow-none max-h-[calc(100vh-64px)] lg:max-h-screen overflow-y-auto p-6 border-r border-slate-200 -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40">
-      <!-- Added close button for mobile sidebar -->
-      <button id="close-sidebar" class="lg:hidden absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-
-      <h2 class="font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
+    <aside id="sidebar" class="w-64 bg-white shadow-lg min-h-screen p-6 border-r border-slate-200 fixed lg:static left-0 top-0 h-full z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto">
+      <div class="flex justify-between items-center lg:hidden mb-6">
+        <h2 class="font-bold text-gray-900 uppercase tracking-wider text-sm">Navigation</h2>
+        <button id="closeSidebarBtn" class="text-gray-600 hover:text-gray-900 text-2xl">&times;</button>
+      </div>
+      
+      <h2 class="hidden lg:block font-bold text-gray-900 mb-6 text-lg uppercase tracking-wider text-sm">Navigation</h2>
 
       <ul class="space-y-2 text-gray-700">
         <li>
-          <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4m-4-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
             </svg>
             <span class="text-sm font-medium">Dashboard</span>
           </a>
         </li>
 
         <li>
-          <a href="/profile/<%= user.id %>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all">
+          <a href="/accounts/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+            <span class="text-sm font-medium">Accounts</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/upi/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="text-sm font-medium">UPI</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/deposits/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-sm font-medium">Deposits</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/loans/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-sm font-medium">Loans</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/transfers/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <span class="text-sm font-medium">Transfers</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/statements/<%=id%>" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-lg transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="text-sm font-medium">Statements</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/profile/<%=id%>" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg font-semibold border-l-4 border-blue-600 transition-all">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
             </svg>
@@ -61,7 +113,7 @@
         </li>
 
         <li>
-          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all">
+          <a href="/logout" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-slate-100 rounded-lg transition-all duration-200">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
             </svg>
@@ -69,7 +121,31 @@
           </a>
         </li>
       </ul>
+
+      <hr class="my-6 border-slate-200">
+
+      <ul class="text-sm space-y-2">
+        <li>
+          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            Block Debit Card
+          </a>
+        </li>
+        <li>
+          <a href="#" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Report Fraud
+          </a>
+        </li>
+      </ul>
     </aside>
+
+    <!-- Added mobile overlay backdrop for sidebar -->
+    <div id="sidebarBackdrop" class="hidden lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300"></div>
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 p-4 sm:p-8 space-y-8 overflow-y-auto">

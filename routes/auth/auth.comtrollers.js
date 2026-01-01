@@ -171,7 +171,7 @@ export async function signuser(req, res) {
       [
         customerId,
         accountNumber,
-        "SAVINGS",
+        "Savings Account",
         ifsc,
         branchName,
         Number(initialAmount) || 0,
@@ -203,6 +203,7 @@ export async function signuser(req, res) {
       old: req.body,
       verifiedEmail: req.session.verifiedEmail || null,
       verifiedPhone: req.session.verifiedPhone || null,
+      phoneEmailClientId: process.env.PHONE_EMAIL_CLIENT_ID
     });
   } finally {
     client.release();
