@@ -18,6 +18,6 @@ router.get("/create-account/:id", accountdetalis);
 router.post("/create-account/:id", createaccount);
 
 // account details (account_id is OK)
-router.get("/details/:accid", deatlis);
+router.get("/details/:id/:accid", deatlis);
 
 export default router;
