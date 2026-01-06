@@ -5,7 +5,7 @@ import {
   loginuser,
   verifyEmail,
   verifyPhone
-} from "./auth.controllers.js";
+} from "./auth.comtrollers.js";
 
 const router = express.Router();
 
