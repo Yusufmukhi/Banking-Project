@@ -3,17 +3,17 @@ import jwt from "jsonwebtoken";
 import { auth } from "./middleware/auth.js";
 
 // auth routes
-import authRoutes from "../auth/auth.routes.js";
+import authRoutes from "../routes/auth/auth.routes.js";
 
 // protected routes
-import home from "../home/home.routes.js";
-import accounts from "../accounts/accounts.router.js";
-import upi from "../upi/upi.routes.js";
-import rd from "../rd/rd-routes.js";
-import fd from "../fd/fd-routes.js";
-import loan from "../loans/loan.routes.js";
-import transfer from "../transfer/transfer.routes.js";
-import profile from "../profile/profile.routes.js";
+import home from "../routes/home/home.routes.js";
+import accounts from "../routes/accounts/accounts.router.js";
+import upi from "../routes/upi/upi.routes.js";
+import rd from "../routes/rd/rd-routes.js";
+import fd from "../routes/fd/fd-routes.js";
+import loan from "../routes/loans/loan.routes.js";
+import transfer from "../routes/transfer/transfer.routes.js";
+import profile from "../routes/profile/profile.routes.js";
 
 const router = express.Router();
 
