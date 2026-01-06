@@ -8,8 +8,8 @@ const isSupabase = process.env.DATABASE_URL?.includes("supabase.co");
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: isSupabase
-    ? { rejectUnauthorized: false } // Supabase cloud
-    : false                          // Local PostgreSQL
+    ? { rejectUnauthorized: false }
+    : false
 });
 
 export default pool;

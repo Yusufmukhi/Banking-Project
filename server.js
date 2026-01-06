@@ -1,32 +1,35 @@
-import "dotenv/config"
-import express from "express"
-import path from "path"
-import { fileURLToPath } from "url"
+import "dotenv/config";
+import express from "express";
+import cookieParser from "cookie-parser";
+import session from "express-session";
 
-import { sessionMiddleware } from "./routes/middleware/sessionMiddleware.js"
-import mainRouter from "./routes/index.js"
+import mainRouter from "./routes/index.js";
 
-const app = express()
+const app = express();
 
-/* ================= FIX __dirname (ESM + Vercel) ================= */
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+// body parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-/* ================= View Engine ================= */
-app.set("view engine", "ejs")
-app.set("views", path.join(__dirname, "views"))
+// cookies (for JWT)
+app.use(cookieParser());
 
-/* ================= Middlewares ================= */
-// session FIRST
-app.use(sessionMiddleware)
-
-// body & static
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-app.use(express.static(path.join(__dirname, "public")))
+// ⚠️ session ONLY for signup verification (email/phone)
+// NOT used for login
+app.use(
+  session({
+    secret: "signup-temp-secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: true,        // REQUIRED for Vercel HTTPS
+      sameSite: "lax",
+    },
+  })
+);
 
 // routes
-app.use("/", mainRouter)
+app.use("/", mainRouter);
 
-/* ================= EXPORT (NO listen) ================= */
-export default app
+// ❌ DO NOT app.listen() on Vercel
+export default app;
