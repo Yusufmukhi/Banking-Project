@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { auth } from "../middleware/auth.js";
+import { auth } from "./middleware/auth.js";
 
 // auth routes
 import authRoutes from "../auth/auth.routes.js";
