@@ -27,7 +27,7 @@
   </header>
 
   <!-- Add mobile menu overlay backdrop -->
-  <div id="mobileMenuBackdrop" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"></div>
+  <div id="mobileMenuBackdrop" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"></div>
 
   <div class="flex min-h-screen bg-slate-50">
 
@@ -140,251 +140,253 @@
       </ul>
     </aside>
 
+    <!-- MAIN CONTENT AREA -->
+    <!-- Added main content wrapper with proper left padding for desktop -->
+    <main class="flex-1 w-full lg:pl-0 overflow-hidden">
+      <div class="p-4 sm:p-8 space-y-6">
 
-    <!-- Added mobile overlay backdrop for sidebar -->
-    <div id="sidebarBackdrop" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-20"></div>
-
-      <!-- BREADCRUMB -->
-      <div class="flex items-center gap-2 text-sm text-gray-600">
-        <a href="/deposits/<%=id%>" class="text-blue-600 hover:underline">Deposits</a>
-        <span>→</span>
-        <span>Recurring Deposit Details</span>
-      </div>
-      
-      <!-- RD HEADER CARD -->
-      <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 sm:p-8 rounded-xl shadow-lg text-white">
-        <p class="text-purple-100 text-xs sm:text-sm font-semibold uppercase tracking-wider">Recurring Deposit</p>
-        <h1 class="text-2xl sm:text-4xl font-bold mt-3">₹<%= rd.monthly_amount %>/Month</h1>
-        <p class="text-purple-100 mt-2 text-sm">RD ID: <%= rd.rd_id %></p>
-        <div class="mt-6 flex flex-wrap gap-4">
-          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold">Active</span>
-          <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold"><%= rd.total_months %> Months</span>
+        <!-- BREADCRUMB -->
+        <div class="flex items-center gap-2 text-sm text-gray-600">
+          <a href="/deposits/<%=id%>" class="text-blue-600 hover:underline">Deposits</a>
+          <span>→</span>
+          <span>Recurring Deposit Details</span>
         </div>
-      </div>
-
-      <!-- RD DETAILS GRID -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <!-- DEPOSIT INFO -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Information</h2>
-          <div class="space-y-4 text-sm">
-            <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Monthly Amount</span>
-              <span class="font-semibold text-gray-900">₹<%= rd.monthly_amount %></span>
-            </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Total Months</span>
-              <span class="font-semibold text-gray-900"><%= rd.duration_months %></span>
-            </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Interest Rate</span>
-              <span class="font-semibold text-gray-900"><%= rd.interest_rate %>% p.a.</span>
-            </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Last Deposit Date</span>
-              <span class="font-semibold text-gray-900">
-                <%= rd.last_payout_date 
-                    ? new Date(rd.last_payout_date).toDateString()
-                    : '— Not deposited yet —' %>
-              </span>
-            </div>
-            <div class="flex justify-between pt-2">
-              <span class="text-gray-600 font-semibold">Next Deposit</span>
-              <span class="font-bold text-green-600">
-                <%= rd.last_payout_date
-                    ? new Date(rd.next_payout_date).toDateString()
-                    : new Date(payment_schedule[0]?.scheduled_date).toDateString() %>
-              </span>
-            </div>
+        
+        <!-- RD HEADER CARD -->
+        <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-6 sm:p-8 rounded-xl shadow-lg text-white">
+          <p class="text-purple-100 text-xs sm:text-sm font-semibold uppercase tracking-wider">Recurring Deposit</p>
+          <h1 class="text-2xl sm:text-4xl font-bold mt-3">₹<%= rd.monthly_amount %>/Month</h1>
+          <p class="text-purple-100 mt-2 text-sm">RD ID: <%= rd.rd_id %></p>
+          <div class="mt-6 flex flex-wrap gap-4">
+            <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold">Active</span>
+            <span class="px-4 py-2 bg-white bg-opacity-20 rounded-lg text-xs sm:text-sm font-semibold"><%= rd.total_months %> Months</span>
           </div>
         </div>
 
-        <!-- MATURITY CALCULATION -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Maturity Calculation</h2>
-          <div class="space-y-4 text-sm">
-            <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Total Deposits</span>
-              <span class="font-semibold text-gray-900">
-                ₹<%= totalDeposits %>
-              </span>
-            </div>
-            <div class="flex justify-between pb-3 border-b border-slate-100">
-              <span class="text-gray-600">Interest Earned</span>
-              <span class="font-semibold text-green-600">₹<%=interestEarned %></span>
-            </div>
-            <div class="flex justify-between pt-2 bg-purple-50 p-3 rounded-lg">
-              <span class="text-gray-700 font-semibold">Maturity Amount</span>
-              <span class="font-bold text-purple-600">₹<%= maturityAmount %></span>
-            </div>
-          </div>
-          <!-- MATURITY ACTION -->
-          <div class="pt-4 border-t border-slate-200 mt-4">
-            <% if (maturity) { %>
-              <!-- RD COMPLETED -->
-              <form action="/claim" method="get">
-                <button class="w-full bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-md">
-                  Claim Maturity Amount
-                </button>
-              </form>
-            <% } else { %>
-              <!-- RD NOT COMPLETED -->
-              <form action="/rd/close" method="get">
-                <button class="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-md">
-                  Close RD (Premature)
-                </button>
-              </form>
-            <% } %>
-          </div>
-        </div>
+        <!-- RD DETAILS GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      </div>
-
-      <!-- PAYOUT & SETTINGS -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <!-- DEPOSIT STATUS -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Status</h2>
-          <div class="space-y-3 text-sm">
-            <div class="p-3 bg-slate-50 rounded-lg">
-              <p class="text-gray-600">Deposits Made</p>
-              <p class="font-semibold text-gray-900 mt-1"><%= Paidmonths %> </p>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg">
-              <p class="text-gray-600">Remaining Months</p>
-              <p class="font-semibold text-gray-900 mt-1"><%=  rd.duration_months -Paidmonths%></p>
-            </div>
-            <div class="p-3 bg-slate-50 rounded-lg">
-              <p class="text-gray-600">Auto-Renewal</p>
-              <p class="font-semibold text-gray-900 mt-1"><%= rd.auto_renewal ? 'Yes' : 'No' %></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- LINKED ACCOUNT -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">Linked Account</h2>
-          <div class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
-            <p class="text-gray-600 text-sm">Savings Account</p>
-            <p class="font-bold text-gray-900 mt-2"><%= rd.account_number %></p>
-            <p class="text-sm text-gray-500 mt-1">Monthly deposits debited from this account</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- DEPOSIT SCHEDULE -->
-      <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-slate-200">
-        <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Schedule</h2>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead>
-              <tr class="border-b-2 border-slate-200 bg-slate-50">
-                <th class="py-3 px-4 font-semibold text-gray-700">Month</th>
-                <th class="py-3 px-4 font-semibold text-gray-700">Deposit Due</th>
-                <th class="py-3 px-4 font-semibold text-gray-700">Amount</th>
-                <th class="py-3 px-4 font-semibold text-gray-700">Status</th>
-                <th class="py-3 px-4 font-semibold text-gray-700">Action</th>
-              </tr>
-            </thead>
-
-            <%
-            const today = new Date();
-            today.setHours(0,0,0,0);
-
-            const lastPaid = rd.last_payout_date ? new Date(rd.last_payout_date) : null;
-            if (lastPaid) lastPaid.setHours(0,0,0,0);
-            %>
-
-            <tbody>
-            <% payment_schedule.forEach((pay, index) => {
-
-              const scheduleDate = new Date(pay.scheduled_date);
-              scheduleDate.setHours(0,0,0,0);
-
-              const diffTime = scheduleDate.getTime() - today.getTime();
-              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-              let statusText = "";
-              let statusClass = "";
-              let canPay = false;
-
-              if (pay.status === "PAID") {
-                statusText = "Completed";
-                statusClass = "bg-green-100 text-green-700";
-              }
-              else if (lastPaid && scheduleDate <= lastPaid) {
-                statusText = "Completed";
-                statusClass = "bg-green-100 text-green-700";
-              }
-              else if (diffDays > 7) {
-                statusText = "Scheduled";
-                statusClass = "bg-slate-100 text-slate-700";
-              }
-              else if (diffDays >= 0 && diffDays <= 7) {
-                statusText = "Payable";
-                statusClass = "bg-blue-100 text-blue-700";
-                canPay = true;
-              }
-              else {
-                statusText = "Late";
-                statusClass = "bg-red-100 text-red-700";
-                canPay = true;
-              }
-            %>
-
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="py-3 px-4 text-xs sm:text-sm">Month <%= index + 1 %></td>
-
-              <td class="py-3 px-4 text-xs sm:text-sm">
-                <%= scheduleDate.toDateString() %>
-              </td>
-
-              <td class="py-3 px-4 font-semibold text-purple-600 text-xs sm:text-sm">
-                ₹<%= rd.monthly_amount %>
-              </td>
-
-              <td class="py-3 px-4">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold <%= statusClass %>">
-                  <%= statusText %>
+          <!-- DEPOSIT INFO -->
+          <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+            <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Information</h2>
+            <div class="space-y-4 text-sm">
+              <div class="flex justify-between pb-3 border-b border-slate-100">
+                <span class="text-gray-600">Monthly Amount</span>
+                <span class="font-semibold text-gray-900">₹<%= rd.monthly_amount %></span>
+              </div>
+              <div class="flex justify-between pb-3 border-b border-slate-100">
+                <span class="text-gray-600">Total Months</span>
+                <span class="font-semibold text-gray-900"><%= rd.duration_months %></span>
+              </div>
+              <div class="flex justify-between pb-3 border-b border-slate-100">
+                <span class="text-gray-600">Interest Rate</span>
+                <span class="font-semibold text-gray-900"><%= rd.interest_rate %>% p.a.</span>
+              </div>
+              <div class="flex justify-between pb-3 border-b border-slate-100">
+                <span class="text-gray-600">Last Deposit Date</span>
+                <span class="font-semibold text-gray-900">
+                  <%= rd.last_payout_date 
+                      ? new Date(rd.last_payout_date).toDateString()
+                      : '— Not deposited yet —' %>
                 </span>
-              </td>
+              </div>
+              <div class="flex justify-between pt-2">
+                <span class="text-gray-600 font-semibold">Next Deposit</span>
+                <span class="font-bold text-green-600">
+                  <%= rd.last_payout_date
+                      ? new Date(rd.next_payout_date).toDateString()
+                      : new Date(payment_schedule[0]?.scheduled_date).toDateString() %>
+                </span>
+              </div>
+            </div>
+          </div>
 
-              <td class="py-3 px-4">
-                <% if (canPay) { %>
-                  <form action="/pay/<%= rd.rd_id %>" method="get">
-                    <input type="hidden" name="scheduled_date" value="<%= pay.scheduled_date %>">
-                    <input type="hidden" name="amount" value="<%= rd.monthly_amount %>">
-                    <input type="hidden" name="month_no" value="<%= index + 1 %>">
-                    <button class="px-3 sm:px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors">
-                      Pay Now
-                    </button>
-                  </form>
-                <% } else { %>
-                  <span class="text-xs text-gray-400">—</span>
-                <% } %>
-              </td>
-            </tr>
+          <!-- MATURITY CALCULATION -->
+          <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+            <h2 class="text-lg font-bold text-gray-900 mb-6">Maturity Calculation</h2>
+            <div class="space-y-4 text-sm">
+              <div class="flex justify-between pb-3 border-b border-slate-100">
+                <span class="text-gray-600">Total Deposits</span>
+                <span class="font-semibold text-gray-900">
+                  ₹<%= totalDeposits %>
+                </span>
+              </div>
+              <div class="flex justify-between pb-3 border-b border-slate-100">
+                <span class="text-gray-600">Interest Earned</span>
+                <span class="font-semibold text-green-600">₹<%=interestEarned %></span>
+              </div>
+              <div class="flex justify-between pt-2 bg-purple-50 p-3 rounded-lg">
+                <span class="text-gray-700 font-semibold">Maturity Amount</span>
+                <span class="font-bold text-purple-600">₹<%= maturityAmount %></span>
+              </div>
+            </div>
+            <!-- MATURITY ACTION -->
+            <div class="pt-4 border-t border-slate-200 mt-4">
+              <% if (maturity) { %>
+                <!-- RD COMPLETED -->
+                <form action="/claim" method="get">
+                  <button class="w-full bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-md">
+                    Claim Maturity Amount
+                  </button>
+                </form>
+              <% } else { %>
+                <!-- RD NOT COMPLETED -->
+                <form action="/rd/close" method="get">
+                  <button class="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-md">
+                    Close RD (Premature)
+                  </button>
+                </form>
+              <% } %>
+            </div>
+          </div>
 
-            <% }); %>
-            </tbody>
-          </table>
         </div>
-      </div>
 
-      <!-- ACTION BUTTONS -->
-      <div class="flex flex-col sm:flex-row gap-4 pt-4">
-        <button class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md">
-          Close RD
-        </button>
-        <button class="flex-1 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-md">
-          Download Certificate
-        </button>
-      </div>
+        <!-- PAYOUT & SETTINGS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+          <!-- DEPOSIT STATUS -->
+          <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+            <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Status</h2>
+            <div class="space-y-3 text-sm">
+              <div class="p-3 bg-slate-50 rounded-lg">
+                <p class="text-gray-600">Deposits Made</p>
+                <p class="font-semibold text-gray-900 mt-1"><%= Paidmonths %> </p>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-lg">
+                <p class="text-gray-600">Remaining Months</p>
+                <p class="font-semibold text-gray-900 mt-1"><%=  rd.duration_months -Paidmonths%></p>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-lg">
+                <p class="text-gray-600">Auto-Renewal</p>
+                <p class="font-semibold text-gray-900 mt-1"><%= rd.auto_renewal ? 'Yes' : 'No' %></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- LINKED ACCOUNT -->
+          <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+            <h2 class="text-lg font-bold text-gray-900 mb-6">Linked Account</h2>
+            <div class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+              <p class="text-gray-600 text-sm">Savings Account</p>
+              <p class="font-bold text-gray-900 mt-2"><%= rd.account_number %></p>
+              <p class="text-sm text-gray-500 mt-1">Monthly deposits debited from this account</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- DEPOSIT SCHEDULE -->
+        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-slate-200">
+          <h2 class="text-lg font-bold text-gray-900 mb-6">Deposit Schedule</h2>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b-2 border-slate-200 bg-slate-50">
+                  <th class="py-3 px-4 font-semibold text-gray-700">Month</th>
+                  <th class="py-3 px-4 font-semibold text-gray-700">Deposit Due</th>
+                  <th class="py-3 px-4 font-semibold text-gray-700">Amount</th>
+                  <th class="py-3 px-4 font-semibold text-gray-700">Status</th>
+                  <th class="py-3 px-4 font-semibold text-gray-700">Action</th>
+                </tr>
+              </thead>
+
+              <%
+              const today = new Date();
+              today.setHours(0,0,0,0);
+
+              const lastPaid = rd.last_payout_date ? new Date(rd.last_payout_date) : null;
+              if (lastPaid) lastPaid.setHours(0,0,0,0);
+              %>
+
+              <tbody>
+              <% payment_schedule.forEach((pay, index) => {
+
+                const scheduleDate = new Date(pay.scheduled_date);
+                scheduleDate.setHours(0,0,0,0);
+
+                const diffTime = scheduleDate.getTime() - today.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                let statusText = "";
+                let statusClass = "";
+                let canPay = false;
+
+                if (pay.status === "PAID") {
+                  statusText = "Completed";
+                  statusClass = "bg-green-100 text-green-700";
+                }
+                else if (lastPaid && scheduleDate <= lastPaid) {
+                  statusText = "Completed";
+                  statusClass = "bg-green-100 text-green-700";
+                }
+                else if (diffDays > 7) {
+                  statusText = "Scheduled";
+                  statusClass = "bg-slate-100 text-slate-700";
+                }
+                else if (diffDays >= 0 && diffDays <= 7) {
+                  statusText = "Payable";
+                  statusClass = "bg-blue-100 text-blue-700";
+                  canPay = true;
+                }
+                else {
+                  statusText = "Late";
+                  statusClass = "bg-red-100 text-red-700";
+                  canPay = true;
+                }
+              %>
+
+              <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="py-3 px-4 text-xs sm:text-sm">Month <%= index + 1 %></td>
+
+                <td class="py-3 px-4 text-xs sm:text-sm">
+                  <%= scheduleDate.toDateString() %>
+                </td>
+
+                <td class="py-3 px-4 font-semibold text-purple-600 text-xs sm:text-sm">
+                  ₹<%= rd.monthly_amount %>
+                </td>
+
+                <td class="py-3 px-4">
+                  <span class="px-3 py-1 rounded-full text-xs font-semibold <%= statusClass %>">
+                    <%= statusText %>
+                  </span>
+                </td>
+
+                <td class="py-3 px-4">
+                  <% if (canPay) { %>
+                    <form action="/pay/<%= rd.rd_id %>" method="get">
+                      <input type="hidden" name="scheduled_date" value="<%= pay.scheduled_date %>">
+                      <input type="hidden" name="amount" value="<%= rd.monthly_amount %>">
+                      <input type="hidden" name="month_no" value="<%= index + 1 %>">
+                      <button class="px-3 sm:px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                        Pay Now
+                      </button>
+                    </form>
+                  <% } else { %>
+                    <span class="text-xs text-gray-400">—</span>
+                  <% } %>
+                </td>
+              </tr>
+
+              <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+          <button class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md">
+            Close RD
+          </button>
+          <button class="flex-1 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors shadow-md">
+            Download Certificate
+          </button>
+        </div>
+
+      </div>
     </main>
 
   </div>
@@ -393,7 +395,6 @@
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
     const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
-    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
 
     function openMenu() {
       sidebar.classList.remove('-translate-x-full');
@@ -408,7 +409,6 @@
     }
 
     mobileMenuBtn.addEventListener('click', openMenu);
-    closeSidebarBtn.addEventListener('click', closeMenu);
     mobileMenuBackdrop.addEventListener('click', closeMenu);
 
     sidebar.querySelectorAll('a').forEach(link => {
