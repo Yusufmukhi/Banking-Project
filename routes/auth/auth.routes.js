@@ -5,7 +5,7 @@ import {
   loginuser,
   verifyEmail,
   verifyPhone,
-} from "./auth.comtrollers.js";
+} from "./auth.controllers.js";
 
 import { tempSession } from "../middleware/tempSession.js";
 
