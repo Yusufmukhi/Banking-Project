@@ -4,19 +4,22 @@ import {
   showSuccess,
   loginuser,
   verifyEmail,
-  verifyPhone
-} from "./auth.comtrollers.js";
+  verifyPhone,
+} from "./auth.controllers.js";
+
+import { tempSession } from "../middleware/tempSession.js";
 
 const router = express.Router();
 
-/* LOGIN */
+/* LOGIN (NO SESSION NEEDED) */
 router.get("/login", (req, res) => {
   res.render("login.ejs", { errors: {}, old: {} });
 });
+
 router.post("/login", loginuser);
 
-/* SIGNUP */
-router.get("/signup", (req, res) => {
+/* SIGNUP (TEMP SESSION ENABLED) */
+router.get("/signup", tempSession, (req, res) => {
   req.session.verifiedEmail = null;
   req.session.verifiedPhone = null;
 
@@ -29,9 +32,9 @@ router.get("/signup", (req, res) => {
   });
 });
 
-router.post("/signup", signuser);
-router.post("/verify-email", verifyEmail);
-router.post("/verify-phone", verifyPhone);
-router.get("/signup-success", showSuccess);
+router.post("/signup", tempSession, signuser);
+router.post("/verify-email", tempSession, verifyEmail);
+router.post("/verify-phone", tempSession, verifyPhone);
+router.get("/signup-success", tempSession, showSuccess);
 
 export default router;
