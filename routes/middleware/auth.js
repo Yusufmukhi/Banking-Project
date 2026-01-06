@@ -8,11 +8,16 @@ export function auth(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 🔑 MAP JWT → req.customer (SESSION COMPATIBLE)
-    req.customer = {
-      customer_id: decoded.customer_id,
-      cif: decoded.cif,
+    // ✅ CREATE A FAKE SESSION OBJECT (COMPAT MODE)
+    req.session = {
+      customer: {
+        customer_id: decoded.customer_id,
+        cif: decoded.cif,
+      },
     };
+
+    // (optional) also expose directly
+    req.customer = req.session.customer;
 
     next();
   } catch (err) {
